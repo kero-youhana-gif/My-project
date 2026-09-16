@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kero | Portfolio</title>
+    <!-- استدعاء خط Outfit العصري المفضل لديك -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 1. شريط التنقل (Navbar) -->
+    <header class="navbar">
+        <div class="nav-logo">
+            <div class="logo-icon"></div> 
+            <span class="logo-text">kero <span class="gradient-text">Youhana</span></span>
+        </div>
+
+        <nav class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About Me</a>
+            <a href="#services">Services</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="nav-right">
+            <a href="#contact" class="btn-connect nav-btn">Connect with me</a>
+        </div>
+    </header>
+
+    <!-- 2. قسم الهيرو (Hero Section) -->
+    <section class="hero-section" id="home">
+        <div class="profile-container">
+            <img src="fdac6fa2-3c75-4b07-8fde-37824db8fe65.jpg" alt="kero youhana" class="profile-img">
+        </div>
+
+        <h1 class="hero-title">
+           <span class="gradient-text">I'm kerolos youhana</span>, Fullstack developer based in Egypt
+        </h1>
+
+        <p class="hero-subtitle">
+           I'm an ordinary citizen living under pressure. I work in the furniture industry and I'm studying computer science. I strive for success and a good job. Thank you.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#contact" class="btn-connect">Connect with me</a>
+            <a href="resume.pdf" class="btn-resume" download>My resume</a>
+        </div>
+    </section>
+
+    <!-- 3. قسم من أنا (About Section) -->
+    <section class="about-section" id="about">
+        <h2 class="about-section-title">About <span class="gradient-text">Me</span></h2>
+
+        <div class="about-content">
+            <div class="about-left">
+                <img src="fdac6fa2-3c75-4b07-8fde-37824db8fe65.jpg" alt="kero" class="about-img-square">
+            </div>
+
+            <div class="about-right">
+                <p class="about-text">
+                    I am an experienced fullstack developer with a solid foundation in building web applications. Throughout my career, I have had the privilege of collaborating with dynamic companies like Buzz X, RTL, and PerfectChem, contributing to their digital growth.
+                </p>
+                <p class="about-text">
+                    My passion for fullstack development drives me to build seamless user interfaces and high-performance backend architectures that deliver real value.
+                </p>
+
+                <div class="skills-container">
+                    <div class="skill-item">
+                        <span class="skill-name">HTML & CSS</span>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 90%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <span class="skill-name">JavaScript</span>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 80%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <span class="skill-name">React JS</span>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <span class="skill-name">Node JS</span>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <span class="skill-name">Databases</span>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-stats">
+            <div class="stat-box">
+                <span class="stat-number gradient-text">2</span>
+                <span class="stat-label">YEARS OF EXPERIENCE</span>
+            </div>
+
+            <div class="stat-divider"></div> 
+            
+            <div class="stat-box">
+                <span class="stat-number gradient-text">10+</span>
+                <span class="stat-label">PROJECTS COMPLETED</span>
+            </div>
+
+            <div class="stat-divider"></div> 
+            
+            <div class="stat-box">
+                <span class="stat-number gradient-text">5+</span>
+                <span class="stat-label">HAPPY CLIENTS</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. قسم الخدمات (Services Section) -->
+    <section class="services-section" id="services">
+        <h2 class="section-title">My <span class="gradient-text">Services</span></h2>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="card-number">01</div>
+                <h3 class="card-title">Frontend development</h3>
+                <p class="card-description">Turning designs into pixel-perfect, high-performance web applications.</p>
+                <a href="#" class="read-more">
+                    <span>Read More</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="card-number">02</div>
+                <h3 class="card-title">Backend development</h3>
+                <p class="card-description">Powering data-driven web applications with scalable backend solutions.</p>
+                <a href="#" class="read-more">
+                    <span>Read More</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="card-number">03</div>
+                <h3 class="card-title">Project deployment</h3>
+                <p class="card-description">Ensuring smooth application operations with robust maintenance procedures.</p>
+                <a href="#" class="read-more">
+                    <span>Read More</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. قسم أعمالي (Portfolio Section) -->
+    <section class="portfolio-section" id="portfolio">
+        <h2 class="section-title">My Latest <span class="gradient-text">Work</span></h2>
+        
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <div class="portfolio-img-container">
+                    <img src="project1.jpg" alt="Project 1" class="portfolio-img">
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <div class="portfolio-img-container">
+                    <img src="project2.jpg" alt="Project 2" class="portfolio-img">
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <div class="portfolio-img-container">
+                    <img src="project3.jpg" alt="Project 3" class="portfolio-img">
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <div class="portfolio-img-container">
+                    <img src="project4.jpg" alt="Project 4" class="portfolio-img">
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <div class="portfolio-img-container">
+                    <img src="project5.jpg" alt="Project 5" class="portfolio-img">
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <div class="portfolio-img-container">
+                    <img src="project6.jpg" alt="Project 6" class="portfolio-img">
+                </div>
+            </div>
+        </div>
+
+        <div class="portfolio-btn-container">
+            <a href="#" class="portfolio-show-more-btn">
+                <span>Show More</span>
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- 6. قسم تواصل معي (Contact Section) - متطابق مع بيانات حازم بالصورة -->
+    <section class="contact-section" id="contact">
+        <h2 class="section-title">Get In <span class="gradient-text">Touch</span></h2>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3 class="contact-subtitle">Let's Talk</h3>
+                <p>I'm currently available to take on new projects, so feel free to send me a message about anything that you want me to work on. You can contact anytime.</p>
+                
+                <div class="info-details">
+                    <div class="info-item">
+                        <span class="info-icon">📧</span>
+                        <span class="info-text">202402789@pua.edu.eg</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📞</span>
+                        <span class="info-text">+201050339254</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📍</span>
+                        <span class="info-text">Alexandria,Egypt</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- فورم التواصل المتناسق والمنظم -->
+            <form class="contact-form" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Write Your Message Here</label>
+                    <textarea id="message" rows="5" placeholder="Enter your message" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit">Submit Now</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 7. تذييل الصفحة (Footer) - متطابق مع الصورة -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-logo">
+                <span class="logo-text">kero <span class="gradient-text">youhana</span></span>
+                <p class="footer-desc">I'm a fullstack developer from Alexandria, Egypt with 2 years of experience in multiple companies like Buzz X, RTL and PerfectChem.</p>
+            </div>
+            
+            <!-- حقل الاشتراك في النشرة البريدية المتوافق مع الصورة -->
+            <div class="footer-newsletter">
+                <div class="newsletter-wrapper">
+                    <span class="newsletter-icon">👤</span>
+                    <input type="email" placeholder="Enter your email" class="newsletter-input">
+                </div>
+                <button class="newsletter-btn">Subscribe</button>
+            </div>
+        </div>
+        
+        <hr class="footer-line">
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 kero Youhana. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Terms of services</a>
+                <a href="#">Privacy policy</a>
+                <a href="#">Connect with me</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

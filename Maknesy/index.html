@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McKinsey & Company Clone</title>
+    <!-- Bootstrap 5.3.3 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        /* شاشة القفل البيضاء البسيطة */
+        #lockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+        }
+
+        #lockScreen input {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            outline: none;
+            width: 250px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        #lockScreen button {
+            padding: 10px 25px;
+            font-size: 16px;
+            background-color: #051c2c;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #lockScreen button:hover {
+            background-color: #082d46;
+        }
+
+        #errorMessage {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: 5px;
+        }
+
+        /* تنسيقات الموقع الأساسي */
+        body {
+            background-color: #051c2c;
+            color: #ffffff;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .nav-item-mega {
+            position: static !important;
+        }
+
+        .nav-dropdown-btn {
+            padding: 8px 12px !important;
+            transition: all 0.2s ease-in-out;
+            color: rgba(255, 255, 255, 0.65) !important;
+            text-decoration: none !important;
+        }
+
+        .nav-dropdown-btn:hover,
+        .nav-dropdown-btn:focus,
+        .nav-item-mega:hover .nav-dropdown-btn {
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+
+        .mega-dropdown-panel {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            color: #111111;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-top: 1px solid #e0e0e0;
+            z-index: 1050;
+            padding: 35px 50px;
+        }
+
+        .nav-item-mega:hover .mega-dropdown-panel,
+        .nav-item-mega:focus-within .mega-dropdown-panel {
+            display: block;
+        }
+
+        .mega-dropdown-panel a {
+            color: #555555;
+            transition: color 0.15s ease;
+        }
+
+        .mega-dropdown-panel a:hover {
+            color: #000000 !important;
+            font-weight: 500;
+        }
+
+        .top-right-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .top-right-link:hover {
+            color: #ffffff;
+        }
+
+        @media (max-width: 767.98px) {
+            .offcanvas-body-container {
+                flex-direction: column !important;
+            }
+            .sidebar-tabs {
+                min-width: 100% !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .sidebar-content-pane {
+                padding: 1.5rem !important;
+            }
+        }
+
+        .featured-newsletter-section {
+            position: relative;
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+
+        .newsletter-top-label {
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.75);
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .featured-newsletter-bg {
+            position: relative;
+            background: linear-gradient(90deg, rgba(5, 28, 44, 0.95) 0%, rgba(5, 28, 44, 0.8) 40%, rgba(5, 28, 44, 0.2) 100%), 
+                        url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1600&auto=format&fit=crop') center right / cover no-repeat;
+            min-height: 400px;
+            padding: 50px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .newsletter-heading {
+            font-family: Georgia, serif;
+            font-size: 2.8rem;
+            line-height: 1.15;
+            color: #ffffff;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #888888;
+            font-size: 13px;
+        }
+
+        .newsletter-form input, 
+        .newsletter-form button {
+            height: 42px;
+            font-size: 13px;
+        }
+
+        .podcast-section {
+            background-color: #0050be;
+            color: #ffffff;
+            padding: 60px 0 40px 0;
+        }
+
+        .podcast-title {
+            font-family: Georgia, serif;
+            font-size: 3.2rem;
+            font-weight: 300;
+        }
+
+        .podcast-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 650px;
+        }
+
+        .podcast-social-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s ease-in-out;
+        }
+
+        .podcast-social-icon:hover {
+            background: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+        }
+
+        .btn-listen-here {
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            color: #ffffff;
+            font-size: 13px;
+            padding: 8px 18px;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-listen-here:hover {
+            background-color: #ffffff;
+            color: #0050be;
+        }
+
+        .podcast-card {
+            background-color: #ffffff;
+            color: #222222;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .podcast-left-pane {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .podcast-date {
+            font-size: 12px;
+            color: #777777;
+            margin-bottom: 12px;
+        }
+
+        .podcast-episode-heading {
+            font-family: Georgia, serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #111111;
+            line-height: 1.25;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+
+        .podcast-episode-heading:hover {
+            color: #0050be;
+        }
+
+        .podcast-episode-text {
+            font-size: 13.5px;
+            color: #555555;
+            line-height: 1.6;
+        }
+
+        .podcast-player-pane {
+            background: #06192d url('https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800&auto=format&fit=crop') center/cover no-repeat;
+            position: relative;
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background-color: #ffffff;
+            color: #06192d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .podcast-tabs-nav {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 25px;
+            margin-top: 40px;
+        }
+
+        .podcast-tab-item {
+            border-top: 3px solid transparent;
+            padding-top: 10px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 12.5px;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        .podcast-tab-item.active {
+            border-top-color: #5cdb5c;
+            color: #ffffff;
+        }
+
+        .podcast-tab-item:hover {
+            color: #ffffff;
+        }
+
+        /* تنسيقات قسم HOW WE HELP CLIENTS */
+        .help-section {
+            background-color: #030c17;
+            color: #ffffff;
+            padding: 80px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-subtitle {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #8fa0b5;
+            margin-bottom: 20px;
+        }
+
+        .section-main-title {
+            font-family: Georgia, serif;
+            font-size: 2.8rem;
+            font-weight: 400;
+            line-height: 1.25;
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+        }
+
+        .client-card {
+            text-align: left;
+            text-decoration: none;
+            color: #ffffff;
+            display: block;
+        }
+
+        .client-card-img-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .client-card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .client-card:hover .client-card-img-wrapper img {
+            transform: scale(1.03);
+        }
+
+        .card-title-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+            transition: color 0.2s ease;
+        }
+
+        .client-card:hover .card-title-text {
+            color: #3b82f6;
+        }
+
+        .card-desc-text {
+            font-size: 0.92rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        /* --- تنسيقات قسم CAREERS --- */
+        .careers-section {
+            background-color: #eef1f4;
+            color: #222222;
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .careers-subtitle {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #555555;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .careers-title {
+            font-family: Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #2b547e;
+            margin-bottom: 20px;
+        }
+
+        .careers-text {
+            font-size: 14px;
+            color: #555555;
+            line-height: 1.6;
+            max-width: 480px;
+            margin-bottom: 30px;
+        }
+
+        .btn-careers {
+            background-color: #1a82e2;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 24px;
+            border-radius: 0;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-careers:hover {
+            background-color: #1466b8;
+            color: #ffffff;
+        }
+
+        .careers-video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            margin-left: auto;
+        }
+
+        .careers-blue-box {
+            position: absolute;
+            top: -25px;
+            right: -25px;
+            width: 60%;
+            height: 100%;
+            background-color: #0070e0;
+            z-index: 1;
+        }
+
+        .careers-video-card {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 280px;
+            background: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .video-play-icon {
+            width: 55px;
+            height: 55px;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .video-play-icon:hover {
+            transform: scale(1.1);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* --- تنسيقات قسم SOCIETAL IMPACT الجديد --- */
+        .societal-impact-section {
+            background-color: #007bf5;
+            color: #ffffff;
+            padding: 80px 0 100px 0;
+            text-align: center;
+        }
+
+        .societal-subtitle {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 25px;
+        }
+
+        .societal-title {
+            font-family: Georgia, serif;
+            font-size: 2.8rem;
+            font-weight: 300;
+            line-height: 1.2;
+            max-width: 750px;
+            margin: 0 auto 60px auto;
+        }
+
+        .impact-card {
+            text-align: left;
+            text-decoration: none;
+            color: #ffffff;
+            display: block;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+        }
+
+        .impact-card:hover,
+        .impact-card:focus,
+        .impact-card.active-glow {
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.5), 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-6px) scale(1.02);
+            outline: none;
+        }
+
+        .impact-img-box {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+        }
+
+        .impact-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .impact-card:hover .impact-img-box img {
+            transform: scale(1.05);
+        }
+
+        .impact-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .impact-card-text {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الشاشة البيضاء القافلة للموقع -->
+    <div id="lockScreen">
+        <h3 style="font-weight: 400; margin-bottom: 10px;">ادخل الباسورد</h3>
+        <input type="password" id="passwordInput" placeholder="اكتب الباسورد هنا" onkeydown="if(event.key === 'Enter') unlockSite()">
+        <button onclick="unlockSite()">دخول</button>
+        <div id="errorMessage">الباسورد غير صحيح</div>
+    </div>
+
+    <!-- المحتوى الكامل للموقع -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary border-opacity-25 px-4 sticky-top position-relative" style="background-color: #051c2c;">
+            <div class="container-fluid px-0">
+                <div class="d-flex align-items-center me-4">
+                    <button class="btn btn-link text-white p-0 me-3 shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mckinseyMegaMenu" aria-label="Toggle navigation">
+                        <i class="bi bi-list fs-2"></i>
+                    </button>
+                    <a class="fw-bold lh-sm fs-6 text-white text-decoration-none" style="font-family: Georgia, serif;" href="#">McKinsey<br>& Company</a>
+                </div>
+
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 align-items-lg-center">
+                        <li class="nav-item nav-item-mega">
+                            <a href="#" class="nav-link nav-dropdown-btn small">Industries</a>
+                            <div class="mega-dropdown-panel">
+                                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none" style="font-family: Georgia, serif;">Industries &rrarr;</a>
+                                </div>
+                                <div class="row g-4">
+                                    <div class="col-lg-3 col-md-6">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Aerospace & Defense</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Agriculture</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Automotive & Assembly</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Chemicals</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Consumer Packaged Goods</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Education</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Electric Power & Natural Gas</a>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Energy and Materials</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Engineering, Construction & Building Materials</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Financial Services</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Healthcare</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Industrials</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Infrastructure</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Life Sciences</a>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Logistics</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Metals & Mining</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Oil & Gas</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Packaging & Paper</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Private Capital</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Public Sector</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Real Estate</a>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Retail</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Semiconductors</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Social Sector</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Technology, Media & Telecommunications</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Travel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item nav-item-mega">
+                            <a href="#" class="nav-link nav-dropdown-btn small">Capabilities</a>
+                            <div class="mega-dropdown-panel">
+                                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none" style="font-family: Georgia, serif;">Capabilities &rrarr;</a>
+                                </div>
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Artificial Intelligence</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Business Building</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Design</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Growth, Marketing & Sales</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">M&A</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Operations</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">People & Organizational Performance</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Risk & Resilience</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Strategy & Corporate Finance</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Sustainability</a>
+                                    </div>
+                                    <div class="col-md-4 border-start ps-4">
+                                        <span class="badge text-uppercase p-0 text-muted mb-2 d-block fw-bold" style="font-size: 10px;">FEATURED</span>
+                                        <h6 class="fw-bold text-dark mb-1 small">McKinsey Business Building</h6>
+                                        <p class="text-muted small mb-3" style="font-size: 11px;">This is the moment to put business building at the heart of your growth strategy.</p>
+                                        <h6 class="fw-bold text-dark mb-1 small">McKinsey Technology</h6>
+                                        <p class="text-muted small mb-0" style="font-size: 11px;">Modernizing technology and accelerating impact.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item nav-item-mega">
+                            <a href="#" class="nav-link nav-dropdown-btn small">Tech & AI</a>
+                            <div class="mega-dropdown-panel">
+                                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none" style="font-family: Georgia, serif;">Tech & AI &rrarr;</a>
+                                </div>
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">QuantumBlack, AI by McKinsey</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Digital McKinsey</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item nav-item-mega">
+                            <a href="#" class="nav-link nav-dropdown-btn small">Our Insights</a>
+                            <div class="mega-dropdown-panel">
+                                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none" style="font-family: Georgia, serif;">Explore our Insights &rrarr;</a>
+                                </div>
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <span class="badge text-uppercase p-0 text-muted mb-2 d-block fw-bold" style="font-size: 10px;">GO DEEPER</span>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Author Talks</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Case Studies</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Global Surveys</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">McKinsey Explainers</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">McKinsey Health Institute</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">McKinsey Live</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#" class="d-block text-decoration-none small mb-2 mt-4">McKinsey on Lives & Legacies</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">McKinsey Podcast</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">McKinsey Themes</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Our article alerts</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Our newsletters</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Week in Charts</a>
+                                    </div>
+                                    <div class="col-md-4 border-start ps-4">
+                                        <span class="badge text-uppercase p-0 text-muted mb-2 d-block fw-bold" style="font-size: 10px;">FEATURED</span>
+                                        <h6 class="fw-bold text-dark mb-1 small">Ask McKinsey</h6>
+                                        <p class="text-muted small mb-3" style="font-size: 11px;">Get answers to your toughest questions—based on McKinsey insights.</p>
+                                        <h6 class="fw-bold text-dark mb-1 small">McKinsey Quarterly</h6>
+                                        <p class="text-muted small mb-0" style="font-size: 11px;">Our flagship business publication.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item nav-item-mega">
+                            <a href="#" class="nav-link nav-dropdown-btn small">Careers</a>
+                            <div class="mega-dropdown-panel">
+                                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none" style="font-family: Georgia, serif;">Careers &rrarr;</a>
+                                </div>
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Life at McKinsey</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Interviewing</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Students & Professionals</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Tech & AI Careers</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Our Roles</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Search Jobs</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item nav-item-mega">
+                            <a href="#" class="nav-link nav-dropdown-btn small">About Us</a>
+                            <div class="mega-dropdown-panel">
+                                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none" style="font-family: Georgia, serif;">About Us Overview &rrarr;</a>
+                                </div>
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <span class="badge text-uppercase p-0 text-muted mb-2 d-block fw-bold" style="font-size: 10px;">OUR PURPOSE</span>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Leadership</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Purpose, Mission & Values</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">History</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <span class="badge text-uppercase p-0 text-muted mb-2 d-block fw-bold" style="font-size: 10px;">HOW WE WORK</span>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Governance</a>
+                                        <a href="#" class="d-block text-decoration-none small mb-2">Environmental Sustainability</a>
+                                    </div>
+                                    <div class="col-md-4 border-start ps-4">
+                                        <span class="badge text-uppercase p-0 text-muted mb-2 d-block fw-bold" style="font-size: 10px;">FEATURED</span>
+                                        <h6 class="fw-bold text-dark mb-1 small">Growing economic opportunity</h6>
+                                        <p class="text-muted small mb-0" style="font-size: 11px;">Helping organizations thrive and people progress.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link nav-dropdown-btn small">McKinsey Blog</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-3 ms-auto">
+                        <a href="#" class="top-right-link" aria-label="Search"><i class="bi bi-search me-1"></i></a>
+                        <a href="#" class="top-right-link border-start border-secondary ps-3 ms-1">Sign In</a>
+                        <span class="text-white-50">|</span>
+                        <a href="#" class="top-right-link">Subscribe</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- SIDEBAR MENU (RESPONSIVE OFFCANVAS) -->
+    <div class="offcanvas offcanvas-start border-0 text-white w-100" tabindex="-1" id="mckinseyMegaMenu" style="max-width: 900px !important; background-color: #051c2c;">
+        <div class="d-flex flex-column flex-md-row h-100 offcanvas-body-container">
+            <div class="d-flex flex-column justify-content-between py-4 sidebar-tabs" style="background-color: #02121d; min-width: 260px;">
+                <div>
+                    <div class="px-3 mb-4 d-flex align-items-center justify-content-between">
+                        <a class="fw-bold lh-sm fs-6 text-white text-decoration-none" style="font-family: Georgia, serif;" href="#">McKinsey<br>& Company</a>
+                        <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+
+                    <div class="nav flex-column">
+                        <button class="sidebar-btn btn text-start text-white rounded-0 d-flex justify-content-between align-items-center px-3 py-3 border-0 w-100" style="background-color: #082d46;" data-target="pane-industries">
+                            <span class="small">Industries</span> <i class="bi bi-chevron-right small"></i>
+                        </button>
+                        <button class="sidebar-btn btn text-start text-white-50 rounded-0 d-flex justify-content-between align-items-center px-3 py-3 border-0 bg-transparent w-100" data-target="pane-capabilities">
+                            <span class="small">Capabilities</span> <i class="bi bi-chevron-right small"></i>
+                        </button>
+                        <button class="sidebar-btn btn text-start text-white-50 rounded-0 d-flex justify-content-between align-items-center px-3 py-3 border-0 bg-transparent w-100" data-target="pane-insights">
+                            <span class="small">Our Insights</span> <i class="bi bi-chevron-right small"></i>
+                        </button>
+                        <button class="sidebar-btn btn text-start text-white-50 rounded-0 d-flex justify-content-between align-items-center px-3 py-3 border-0 bg-transparent w-100" data-target="pane-careers">
+                            <span class="small">Careers</span> <i class="bi bi-chevron-right small"></i>
+                        </button>
+                        <button class="sidebar-btn btn text-start text-white-50 rounded-0 d-flex justify-content-between align-items-center px-3 py-3 border-0 bg-transparent w-100" data-target="pane-about">
+                            <span class="small">About Us</span> <i class="bi bi-chevron-right small"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="px-3 pt-4 border-top border-secondary border-opacity-25 mt-3">
+                    <a href="#" class="d-block text-white-50 text-decoration-none small mb-2"><i class="bi bi-person me-2"></i>Sign In</a>
+                    <a href="#" class="d-block text-white-50 text-decoration-none small"><i class="bi bi-envelope me-2"></i>Email Subscriptions</a>
+                </div>
+            </div>
+
+            <div class="bg-white text-dark flex-grow-1 p-4 p-md-5 overflow-y-auto sidebar-content-pane">
+                <div id="pane-industries" class="content-pane">
+                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none d-block mb-4">Industries &rrarr;</a>
+                    <div class="row g-3 g-md-4">
+                        <div class="col-sm-6 col-md-4">
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Aerospace & Defense</a>
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Agriculture</a>
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Automotive & Assembly</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Financial Services</a>
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Healthcare</a>
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Industrials</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Public Sector</a>
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Retail</a>
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Travel</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pane-capabilities" class="content-pane d-none">
+                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none d-block mb-4">Capabilities &rrarr;</a>
+                    <div class="row g-3 g-md-4">
+                        <div class="col-sm-6">
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Artificial Intelligence</a>
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Business Building</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Operations</a>
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Strategy & Corporate Finance</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pane-insights" class="content-pane d-none">
+                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none d-block mb-4">Explore Our Insights &rrarr;</a>
+                    <div class="row g-3 g-md-4">
+                        <div class="col-sm-6">
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Author Talks</a>
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Case Studies</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pane-careers" class="content-pane d-none">
+                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none d-block mb-4">Careers Overview &rrarr;</a>
+                    <div class="row g-3 g-md-4">
+                        <div class="col-sm-6">
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Search Jobs</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pane-about" class="content-pane d-none">
+                    <a href="#" class="fw-bold text-dark fs-4 text-decoration-none d-block mb-4">About McKinsey &rrarr;</a>
+                    <div class="row g-3 g-md-4">
+                        <div class="col-sm-6">
+                            <a href="#" class="d-block text-dark text-decoration-none small mb-3">Our History</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT SECTION -->
+    <main class="container my-5 pt-2">
+        <div class="row g-4">
+            
+            <div class="col-lg-7">
+                <div class="mb-4">
+                    <h1 class="display-4 fw-light mb-3" style="font-family: Georgia, serif;">What's your next<br><strong>brilliant move?</strong></h1>
+                    <div class="d-flex align-items-center gap-3">
+                        <p class="text-white-50 small mb-0" style="max-width: 480px; font-size: 13px;">
+                            Game-changing work. People and AI powering growth. At McKinsey, we help you think bigger, build stronger, and expand opportunity for all.
+                        </p>
+                        <a href="#" class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px;" aria-label="Learn more">
+                            <i class="bi bi-arrow-right fs-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-sm position-relative" style="height: 180px;">
+                            <img src="https://picsum.photos/400/300?random=1" alt="Chokepoints article thumbnail" class="w-100 h-100 object-fit-cover opacity-75">
+                            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);">
+                                <span class="badge text-uppercase p-0 text-white-50 mb-1 d-block fw-normal" style="font-size: 10px;">ARTICLE</span>
+                                <h6 class="fw-bold mb-0 small">Chokepoints: How to respond when the global economy gets squeezed &rsaquo;</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-sm position-relative" style="height: 180px;">
+                            <img src="https://picsum.photos/400/300?random=2" alt="Global balance sheet thumbnail" class="w-100 h-100 object-fit-cover opacity-75">
+                            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);">
+                                <span class="badge text-uppercase p-0 text-white-50 mb-1 d-block fw-normal" style="font-size: 10px;">REPORT</span>
+                                <h6 class="fw-bold mb-0 small">The global balance sheet 2026: Imbalance and divergence &rsaquo;</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-sm position-relative" style="height: 180px;">
+                            <img src="https://picsum.photos/400/300?random=3" alt="Public sector AI thumbnail" class="card-img w-100 h-100 object-fit-cover opacity-75">
+                            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);">
+                                <span class="badge text-uppercase p-0 text-white-50 mb-1 d-block fw-normal" style="font-size: 10px;">ARTICLE</span>
+                                <h6 class="fw-bold mb-0 small">How can the public sector meet the AI moment? &rsaquo;</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-sm position-relative" style="height: 180px;">
+                            <img src="https://picsum.photos/400/300?random=4" alt="AI in insurance thumbnail" class="card-img w-100 h-100 object-fit-cover opacity-75">
+                            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);">
+                                <span class="badge text-uppercase p-0 text-white-50 mb-1 d-block fw-normal" style="font-size: 10px;">ARTICLE</span>
+                                <h6 class="fw-bold mb-0 small">How AI will reshape the economics of insurance: A CEO's guide &rsaquo;</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 d-flex flex-column gap-3">
+                <div class="card border-0 rounded-0 overflow-hidden text-white shadow" style="min-height: 350px; background: linear-gradient(180deg, rgba(20,20,20,0.6) 0%, rgba(180, 30, 30, 0.9) 100%), url('https://picsum.photos/500/500?random=20') center/cover;">
+                    <div class="p-4 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <span class="badge text-uppercase p-0 text-white-50 small mb-2 d-block fw-normal" style="font-size: 10px;">CASE STUDY</span>
+                            <h3 style="font-family: Georgia, serif;" class="fw-normal mb-3">How B.TECH transformed into a technology-powered retailer</h3>
+                        </div>
+                        <div>
+                            <div class="mb-3">
+                                <span class="bg-black text-white fw-bold fs-5 px-3 py-2 d-inline-block border border-secondary">B.TECH <span class="text-warning fs-6">MAX</span></span>
+                            </div>
+                            <a href="#" class="btn btn-light rounded-0 btn-sm px-3 fw-semibold">Read the case study &rrarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 rounded-0 p-4 text-white" style="background-color: #0b2f48;">
+                    <p class="small text-center text-white-50 mb-3" style="font-size: 12px;">Subscribe to the latest McKinsey Insights on the topics you care about.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control rounded-0 bg-white border-0 text-dark" placeholder="Email address..." aria-label="Email address">
+                        <button class="btn btn-info rounded-0 text-white" type="button"><i class="bi bi-arrow-right"></i></button>
+                    </div>
+                    <div class="text-center">
+                        <span class="small text-white-50 d-block mb-2" style="font-size: 10px;">Or continue with</span>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button class="btn btn-outline-light btn-sm rounded-0 small py-1 px-2" style="font-size: 10px;"><i class="bi bi-apple me-1"></i> Apple</button>
+                            <button class="btn btn-outline-light btn-sm rounded-0 small py-1 px-2" style="font-size: 10px;"><i class="bi bi-google me-1"></i> Google</button>
+                            <button class="btn btn-outline-light btn-sm rounded-0 small py-1 px-2" style="font-size: 10px;"><i class="bi bi-linkedin me-1"></i> LinkedIn</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FEATURED NEWSLETTER SECTION -->
+    <section class="featured-newsletter-section my-5">
+        <span class="newsletter-top-label">FEATURED NEWSLETTER</span>
+
+        <div class="featured-newsletter-bg">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-8">
+                        <h2 class="newsletter-heading mb-3">
+                            Insights to navigate what's next &rsaquo;
+                        </h2>
+                        
+                        <p class="text-white-50 mb-4 pe-md-3" style="font-size: 13.5px; line-height: 1.6;">
+                            Sharper decisions start with <strong>The CEO Shortlist</strong>, a bimonthly newsletter of our best ideas for the C-suite.
+                        </p>
+
+                        <div class="d-flex flex-row gap-2 newsletter-form" style="max-width: 450px;">
+                            <input type="email" class="form-control rounded-0 bg-white border-0 text-dark shadow-none flex-grow-1 px-3" placeholder="Email address..." required>
+                            <button class="btn btn-light rounded-0 fw-normal px-4 text-dark border-0 flex-shrink-0" type="submit">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PODCAST SECTION -->
+    <section class="podcast-section">
+        <div class="container">
+            <div class="row justify-between align-items-start mb-4">
+                <div class="col-lg-8">
+                    <h2 class="podcast-title mb-3">The McKinsey Podcast</h2>
+                    <p class="podcast-desc mb-3">
+                        A shortcut to clarity in a noisy world, The McKinsey Podcast dives into the ideas, issues, and innovations reshaping business, the economy, and society. Tune in to hear from McKinsey experts and thought leaders about the latest in AI breakthroughs, leadership, and more.
+                    </p>
+                    <div class="d-flex gap-2 align-items-center">
+                        <a href="#" class="podcast-social-icon" aria-label="Apple Podcasts"><i class="bi bi-apple"></i></a>
+                        <a href="#" class="podcast-social-icon" aria-label="Spotify"><i class="bi bi-spotify"></i></a>
+                        <a href="#" class="podcast-social-icon" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 text-lg-end mt-3 mt-lg-0">
+                    <a href="#" class="btn btn-listen-here rounded-0">Listen here &rrarr;</a>
+                </div>
+            </div>
+
+            <div class="podcast-card">
+                <div class="row g-0">
+                    <div class="col-md-6 podcast-left-pane">
+                        <div class="podcast-date">July 23, 2026</div>
+                        <h3 class="podcast-episode-heading">
+                            The human advantage in an AI economy &rsaquo;
+                        </h3>
+                        <p class="podcast-episode-text mb-0">
+                            Tech investment alone won't deliver a competitive edge. Organizations need systems that strengthen both brain health and AI-era skills so people can keep up with rising cognitive demands.
+                        </p>
+                    </div>
+
+                    <div class="col-md-6 podcast-player-pane">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-link text-white-50 p-0 fs-5"><i class="bi bi-three-dots-vertical"></i></button>
+                        </div>
+
+                        <div class="player-controls-overlay">
+                            <span class="small text-white-50 me-1" style="font-size: 11px;"><i class="bi bi-arrow-counterclockwise fs-5"></i> 15</span>
+                            <div class="play-btn">
+                                <i class="bi bi-play-fill" style="margin-left: 3px;"></i>
+                            </div>
+                            <span class="small text-white-50 ms-1" style="font-size: 11px;"><i class="bi bi-arrow-clockwise fs-5"></i> 30</span>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between text-white-50 small fs-7 mt-auto pt-4">
+                            <span>0:00</span>
+                            <div class="flex-grow-1 mx-3" style="height: 2px; background: rgba(255,255,255,0.3); position: relative;">
+                                <div style="width: 0%; height: 100%; background: white;"></div>
+                            </div>
+                            <span>22:25</span>
+                            <i class="bi bi-volume-up ms-3 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row podcast-tabs-nav g-3">
+                <div class="col-md-3 col-6">
+                    <a href="#" class="podcast-tab-item active">
+                        The human advantage in an AI economy
+                    </a>
+                </div>
+                <div class="col-md-3 col-6">
+                    <a href="#" class="podcast-tab-item">
+                        What the 2026 World Cup reveals about the next generation of sports fans
+                    </a>
+                </div>
+                <div class="col-md-3 col-6">
+                    <a href="#" class="podcast-tab-item">
+                        The real AI advantage
+                    </a>
+                </div>
+                <div class="col-md-3 col-6">
+                    <a href="#" class="podcast-tab-item">
+                        The serial builder advantage: Why repeat innovators win
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION: HOW WE HELP CLIENTS -->
+    <section class="help-section text-center">
+        <div class="container">
+            <div class="section-subtitle">HOW WE HELP CLIENTS</div>
+            <h2 class="section-main-title">
+                Let’s turn your biggest opportunities into your next big moves.
+            </h2>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="client-card">
+                        <div class="client-card-img-wrapper">
+                            <img src="https://picsum.photos/600/400?random=101" alt="Industry expertise">
+                        </div>
+                        <h3 class="card-title-text">Industry expertise &rsaquo;</h3>
+                        <p class="card-desc-text">
+                            Deep industry insights and knowledge based on 100 years of CEO counseling.
+                        </p>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="client-card">
+                        <div class="client-card-img-wrapper">
+                            <img src="https://picsum.photos/600/400?random=102" alt="Capabilities">
+                        </div>
+                        <h3 class="card-title-text">Capabilities &rsaquo;</h3>
+                        <p class="card-desc-text">
+                            Practical experience and know-how on transforming how organizations work.
+                        </p>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="client-card">
+                        <div class="client-card-img-wrapper">
+                            <img src="https://picsum.photos/600/400?random=103" alt="Tech & AI">
+                        </div>
+                        <h3 class="card-title-text">Tech & AI &rsaquo;</h3>
+                        <p class="card-desc-text">
+                            We help clients unlock the power of AI at scale, modernize technology delivery, and build new businesses to fuel growth.
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: CAREERS -->
+    <section class="careers-section">
+        <div class="careers-subtitle">CAREERS</div>
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 text-start">
+                    <h2 class="careers-title">Looking for your next move?</h2>
+                    <p class="careers-text">
+                        We look for people who are energized by the same things as our clients: bold thinking, real impact, and the courage to move first.
+                    </p>
+                    <a href="#" class="btn btn-careers">Explore Careers</a>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="careers-video-wrapper">
+                        <div class="careers-blue-box"></div>
+                        <div class="careers-video-card">
+                            <div class="video-play-icon">
+                                <i class="bi bi-play-fill" style="margin-left: 2px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: SOCIETAL IMPACT (المكتشف حديثاً والمضاف في نهاية الصفحة تماماً) -->
+    <section class="societal-impact-section">
+        <div class="container">
+            <div class="societal-subtitle">SOCIETAL IMPACT</div>
+            <h2 class="societal-title">
+                Sharing our best to help more people succeed
+            </h2>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Card 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="impact-card" tabindex="0">
+                        <div class="impact-img-box">
+                            <img src="https://picsum.photos/600/400?random=201" alt="McKinsey.org">
+                        </div>
+                        <h3 class="impact-card-title">McKinsey.org &rsaquo;</h3>
+                        <p class="impact-card-text">
+                            Skill building programs—at no cost—so nonprofits and individuals can achieve even more.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="impact-card" tabindex="0">
+                        <div class="impact-img-box">
+                            <img src="https://picsum.photos/600/400?random=202" alt="McKinsey.org Forward">
+                        </div>
+                        <h3 class="impact-card-title">McKinsey.org Forward &rsaquo;</h3>
+                        <p class="impact-card-text">
+                            An online learning journey designed to equip individuals at different stages of their careers—from career starters to job changers—with practical skills to succeed.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="impact-card" tabindex="0">
+                        <div class="impact-img-box">
+                            <img src="https://picsum.photos/600/400?random=203" alt="Sustainable inclusive growth">
+                        </div>
+                        <h3 class="impact-card-title">Sustainable inclusive growth &rsaquo;</h3>
+                        <p class="impact-card-text">
+                            We support organizations in innovating sustainably, achieving lasting performance gains, and building workforces that will thrive now and in the future.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- McKinsey App Download Section -->
+<section class="app-download-section">
+  <style>
+    /* Section Background & Fonts */
+    .app-download-section {
+      background-color: #e5e5e5;
+      padding: 60px 20px;
+      font-family: 'Georgia', serif;
+    }
+
+    /* Main Title Styling */
+    .app-title {
+      font-family: 'Georgia', serif;
+      color: #222222;
+      font-size: 2rem;
+      font-weight: 300;
+      line-height: 1.4;
+      max-width: 650px;
+      margin: 0 auto 40px auto;
+    }
+
+    /* Content Layout */
+    .app-content-wrapper {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    /* Device Preview Graphic */
+    .devices-img {
+      height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* QR Code & Label */
+    .qr-box {
+      text-align: center;
+    }
+
+    .qr-img {
+      width: 95px;
+      height: 95px;
+      background-color: #ffffff;
+      padding: 4px;
+      border: 1px solid #cccccc;
+    }
+
+    .qr-text {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: #333333;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    /* App Subtitle & Badges */
+    .app-subtitle {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 1.25rem;
+      color: #333333;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+
+    .store-badge {
+      height: 38px;
+      width: auto;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    /* Hover Glow Effect */
+    .store-badge-link:hover .store-badge {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 0 8px rgba(5, 27, 44, 0.4));
+    }
+  </style>
+
+  <div class="container text-center">
+    
+    <!-- Headline Text -->
+    <h2 class="app-title">
+      The world moves fast. Don’t just keep pace. Stay ahead.
+    </h2>
+
+    <!-- Content Row -->
+    <div class="app-content-wrapper d-flex justify-content-center align-items-center flex-wrap gap-4 gap-md-5">
+      
+      <!-- Devices & QR Group -->
+      <div class="d-flex align-items-center gap-3">
+        <!-- SVG Devices Graphic (Laptop / Tablet / Phone) -->
+        <svg class="devices-img" viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="45" width="28" height="55" rx="4" fill="#051B2C" stroke="#333" stroke-width="1.5"/>
+          <rect x="12" y="50" width="24" height="42" fill="#00A3E0"/>
+          <rect x="42" y="25" width="85" height="58" rx="2" fill="#051B2C" stroke="#333" stroke-width="1.5"/>
+          <rect x="45" y="28" width="79" height="50" fill="#002244"/>
+          <path d="M35 83H134L138 88H31L35 83Z" fill="#666"/>
+          <rect x="132" y="38" width="38" height="62" rx="3" fill="#051B2C" stroke="#333" stroke-width="1.5"/>
+          <rect x="135" y="42" width="32" height="52" fill="#0077C8"/>
+        </svg>
+
+        <!-- QR Code Block -->
+        <div class="qr-box">
+          <svg class="qr-img" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" fill="white"/>
+            <rect x="8" y="8" width="28" height="28" fill="#051B2C"/>
+            <rect x="14" y="14" width="16" height="16" fill="white"/>
+            <rect x="18" y="18" width="8" height="8" fill="#051B2C"/>
+            <rect x="64" y="8" width="28" height="28" fill="#051B2C"/>
+            <rect x="70" y="14" width="16" height="16" fill="white"/>
+            <rect x="74" y="18" width="8" height="8" fill="#051B2C"/>
+            <rect x="8" y="64" width="28" height="28" fill="#051B2C"/>
+            <rect x="14" y="70" width="16" height="16" fill="white"/>
+            <rect x="18" y="74" width="8" height="8" fill="#051B2C"/>
+            <rect x="42" y="8" width="14" height="8" fill="#051B2C"/>
+            <rect x="42" y="22" width="8" height="14" fill="#051B2C"/>
+            <rect x="42" y="42" width="16" height="16" fill="#051B2C"/>
+            <rect x="12" y="42" width="18" height="8" fill="#051B2C"/>
+            <rect x="64" y="42" width="12" height="12" fill="#051B2C"/>
+            <rect x="80" y="42" width="12" height="8" fill="#051B2C"/>
+            <rect x="42" y="64" width="12" height="28" fill="#051B2C"/>
+            <rect x="64" y="64" width="28" height="8" fill="#051B2C"/>
+            <rect x="78" y="78" width="14" height="14" fill="#051B2C"/>
+          </svg>
+          <div class="qr-text">SCAN TO DOWNLOAD</div>
+        </div>
+      </div>
+
+      <!-- App Store & Google Play Links -->
+      <div class="text-start">
+        <div class="app-subtitle">Download the McKinsey Insights app</div>
+        <div class="d-flex gap-2 align-items-center">
+          <a href="#" class="store-badge-link" aria-label="Download on App Store">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store" class="store-badge">
+          </a>
+          <a href="#" class="store-badge-link" aria-label="Get it on Google Play">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" class="store-badge">
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+<!-- Legal Notice Section (Bootstrap Accordion) -->
+<section class="legal-notice-section py-4">
+  <style>
+    .legal-notice-section {
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+
+    .legal-accordion .accordion-item {
+      border: none;
+      border-top: 1px solid #ccc;
+      background: transparent;
+    }
+
+    .legal-accordion .accordion-button {
+      background: transparent;
+      color: #0056b3; /* لون الأزرق المائل للكحلي الخاص بـ McKinsey */
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 18px 0;
+      box-shadow: none !important;
+    }
+
+    .legal-accordion .accordion-button:not(.collapsed) {
+      color: #0056b3;
+      background: transparent;
+    }
+
+    .legal-accordion .accordion-body {
+      padding: 10px 0 30px 0;
+      color: #333;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .legal-notice-title {
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 15px;
+      color: #111;
+    }
+
+    .legal-notice-text {
+      color: #555;
+      font-size: 0.93rem;
+      margin-bottom: 15px;
+    }
+
+    .legal-notice-list {
+      padding-left: 20px;
+      color: #555;
+      font-size: 0.93rem;
+    }
+
+    .legal-notice-list li {
+      margin-bottom: 8px;
+    }
+  </style>
+
+  <div class="container">
+    <div class="accordion legal-accordion" id="legalNoticeAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLegal" aria-expanded="true" aria-controls="collapseLegal">
+            Deferred Prosecution Agreement Relating to Our Work for Purdue Pharma
+          </button>
+        </h2>
+        <div id="collapseLegal" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#legalNoticeAccordion">
+          <div class="accordion-body">
+            
+            <p class="legal-notice-title">
+              McKinsey & Co. released the following statement after the Department of Justice resolved its investigation into the firm's past client service to Purdue Pharma.
+            </p>
+
+            <p class="legal-notice-text">
+              <em>December 13, 2024</em> – We are deeply sorry for our past client service to Purdue Pharma and the actions of a former partner who deleted documents related to his work for that client. We should have appreciated the harm opioids were causing in our society and we should not have undertaken sales and marketing work for Purdue Pharma. This terrible public health crisis and our past work for opioid manufacturers will always be a source of profound regret for our firm.
+            </p>
+
+            <p class="legal-notice-text">
+              In the deferred prosecution agreement with DOJ, we have agreed to accept responsibility for our conduct and agreed to the facts and allegations underlying the charges against McKinsey U.S. for misdemeanor conspiracy to aid and abet in misbranding and felony obstruction by a now-former senior partner. In addition, McKinsey U.S. has agreed to settle a related civil False Claims Act investigation and to enter into a Corporate Integrity Agreement with the Office of Inspector General at the Department of Health and Human Services. Under the terms of the deferred prosecution agreement, McKinsey will:
+            </p>
+
+            <ul class="legal-notice-list">
+              <li>Pay $650 million over the next five years, which includes a $2 million payment to the Virginia Medicaid Fraud Control Unit and the forfeiture of all fees received from Purdue Pharma;</li>
+              <li>Maintain an enhanced compliance program to prevent and detect violations of law;</li>
+              <li>Refrain from any work related to the marketing, sale, promotion, or distribution of controlled substances;</li>
+              <li>Be subject to contempt proceedings if we violate any provision of the agreement;</li>
+              <li>Be subject to DOJ and HHS/OIG oversight of our compliance obligations; and</li>
+              <li>Continue to cooperate with the DOJ's investigation.</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="bg-light pt-5 pb-4 border-top text-dark" style="font-family: Arial, sans-serif; font-size: 14px;">
+  <style>
+    .brand-logo { font-family: 'Times New Roman', Times, serif; font-size: 28px; font-weight: bold; line-height: 1.1; color: #000; }
+    .social-icons a { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: #6c757d; color: #fff; margin-right: 8px; text-decoration: none; }
+    .social-icons a:hover { background-color: #333; }
+    .footer-links a { font-size: 12px; color: #555; text-decoration: none; }
+    .footer-links a:hover, footer a:hover { text-decoration: underline; }
+    .btn-submit { background-color: #0066cc; color: white; border: none; }
+    .btn-submit:hover { background-color: #0052a3; color: white; }
+    .app-badge { height: 40px; }
+  </style>
+
+  <!-- FontAwesome & Bootstrap (تخطي هذا السطر إذا كانوا مضافين في مشروك بالفعل) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <div class="container">
+    
+    <!-- Top Section -->
+    <div class="row gy-4 mb-4">
+      <div class="col-lg-7">
+        <div class="brand-logo mb-4">
+          McKinsey<br>& Company
+        </div>
+        <div class="row">
+          <div class="col-6 col-md-4">
+            <ul class="list-unstyled lh-lg">
+              <li><a href="#" class="text-dark text-decoration-none">Careers</a></li>
+              <li><a href="#" class="text-dark text-decoration-none">Alumni</a></li>
+              <li><a href="#" class="text-dark text-decoration-none">Global locations</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md-4">
+            <ul class="list-unstyled lh-lg">
+              <li><a href="#" class="text-dark text-decoration-none">About us</a></li>
+              <li><a href="#" class="text-dark text-decoration-none">Contact us</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <h5 class="fw-bold mb-2" style="font-size: 16px;">Subscribe</h5>
+        <p class="text-muted small mb-3">Select topics and stay current with our latest insights</p>
+        <form class="d-flex gap-2" style="max-width: 400px;">
+          <input type="email" class="form-control rounded-0" placeholder="Email address" required>
+          <button class="btn btn-submit rounded-0 px-4" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <hr class="my-4 text-muted">
+
+    <!-- Middle Section -->
+    <div class="row align-items-center gy-3 mb-4">
+      <div class="col-md-4 social-icons">
+        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-solid fa-rss"></i></a>
+      </div>
+
+      <div class="col-md-8 text-md-end footer-links">
+        <div class="d-flex flex-wrap justify-content-md-end gap-3">
+          <a href="#">Scam warning</a>
+          <a href="#">FAQ</a>
+          <a href="#">Privacy policy</a>
+          <a href="#"><i class="fa-regular fa-circle-check me-1"></i>Your privacy choices</a>
+          <a href="#">Cookie preferences</a>
+          <a href="#">Terms of use</a>
+          <a href="#">Local language information</a>
+          <a href="#">Accessibility statement</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="row align-items-center gy-3 pt-2">
+      <div class="col-md-8 d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+        <span class="text-muted small">
+          McKinsey Insights - Get our latest thinking on your iPhone, iPad, or Android device.
+        </span>
+        <div class="d-flex gap-2">
+          <a href="#">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store" class="app-badge">
+          </a>
+          <a href="#">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" class="app-badge">
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-4 text-md-end">
+        <span class="text-muted small">&copy; 1996-2026 McKinsey & Company</span>
+      </div>
+    </div>
+
+  </div>
+</footer>
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script تفاعلي لقفل الصفحة والكروت -->
+    <script>
+        function unlockSite() {
+            var password = document.getElementById("passwordInput").value;
+            if (password === "1234") {
+                document.getElementById("lockScreen").style.display = "none";
+            } else {
+                document.getElementById("errorMessage").style.display = "block";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sidebar Navigation Script
+            const sidebarButtons = document.querySelectorAll(".sidebar-btn");
+            const contentPanes = document.querySelectorAll(".content-pane");
+
+            sidebarButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    sidebarButtons.forEach(btn => {
+                        btn.style.backgroundColor = "transparent";
+                        btn.classList.add("text-white-50");
+                        btn.classList.remove("text-white");
+                    });
+
+                    this.style.backgroundColor = "#082d46";
+                    this.classList.remove("text-white-50");
+                    this.classList.add("text-white");
+
+                    contentPanes.forEach(pane => {
+                        pane.classList.add("d-none");
+                    });
+
+                    const targetId = this.getAttribute("data-target");
+                    const targetPane = document.getElementById(targetId);
+                    if (targetPane) {
+                        targetPane.classList.remove("d-none");
+                    }
+                });
+            });
+            const impactCards = document.querySelectorAll(".impact-card");
+            impactCards.forEach(card => {
+                card.addEventListener("click", function() {
+                    impactCards.forEach(c => c.classList.remove("active-glow"));
+                    this.classList.add("active-glow");
+                });
+            });
+        });
+    </script>
+</body>
+</html>

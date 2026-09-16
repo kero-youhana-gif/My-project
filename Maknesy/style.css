@@ -1,0 +1,239 @@
+
+.podcast-section {
+    background-color: #0544af; /* اللون الأزرق الساطع المطابق للموقع */
+    color: #ffffff;
+    padding: 60px 0 50px 0;
+    position: relative;
+}
+
+.podcast-title {
+    font-family: Georgia, serif;
+    font-size: 3.2rem;
+    font-weight: 300;
+}
+
+.podcast-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 650px;
+}
+
+/* أزرار السوشيال ميديا */
+.podcast-social-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s ease-in-out;
+}
+
+.podcast-social-icon:hover {
+    background: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+}
+
+/* زر Listen here */
+.btn-listen-here {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #ffffff;
+    font-size: 13px;
+    padding: 8px 18px;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    background: transparent;
+}
+
+.btn-listen-here:hover {
+    background-color: #ffffff;
+    color: #0544af;
+}
+
+/* كارت المشغل */
+.podcast-card {
+    background-color: #ffffff;
+    color: #222222;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.podcast-left-pane {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.podcast-date {
+    font-size: 11px;
+    color: #888888;
+    margin-bottom: 12px;
+}
+
+.podcast-episode-heading {
+    font-family: Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #111111;
+    line-height: 1.25;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.podcast-episode-heading:hover {
+    color: #0544af;
+}
+
+.podcast-episode-text {
+    font-size: 13.5px;
+    color: #555555;
+    line-height: 1.6;
+}
+
+/* مشغل الصوت الأيمن */
+.podcast-player-pane {
+    background: #061726 url('https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800&auto=format&fit=crop') center/cover no-repeat;
+    position: relative;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.player-controls-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #ffffff;
+}
+
+.play-btn {
+    width: 55px;
+    height: 55px;
+    background-color: #ffffff;
+    color: #061726;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.play-btn:hover {
+    transform: scale(1.08);
+}
+
+/* خطوط الأزرار السفلية */
+.podcast-tabs-nav {
+    margin-top: 35px;
+}
+
+.podcast-tab-item {
+    border-top: 3.5px solid rgba(255, 255, 255, 0.85); /* الخط غير النشط باللون الأبيض الناصع */
+    padding-top: 12px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    display: block;
+    line-height: 1.4;
+    transition: all 0.2s ease;
+}
+
+.podcast-tab-item.active {
+    border-top-color: #38bdf8; /* اللون الأزرق السماوي المضيء للتبويب النشط */
+}
+
+.podcast-tab-item:hover {
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+/* أيقونة المحادثة العائمة (التي تظهر أسفل اليمين في الشاشة) */
+.chat-widget-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 45px;
+    height: 45px;
+    background-color: #0077ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 1000;
+}
+/* App Download Section Styling */
+.app-download-section {
+  background-color: #e9ecef; /* نفس درجة الخلفية الرمادية الفاتحة اللي في الصورة */
+  font-family: Georgia, serif;
+}
+
+.app-title {
+  color: #222222;
+  font-size: 1.8rem;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+}
+
+.app-content-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Images & Sizes */
+.devices-img {
+  max-height: 120px;
+  object-fit: contain;
+}
+
+.qr-img {
+  width: 90px;
+  height: 90px;
+}
+
+.qr-text {
+  font-family: sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #333333;
+}
+
+.app-subtitle {
+  font-family: sans-serif;
+  font-size: 1.1rem;
+  color: #333333;
+  font-weight: 400;
+}
+
+.store-badge {
+  height: 38px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover glow effect for buttons */
+.store-badge-link:hover .store-badge {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 6px rgba(0, 102, 204, 0.4));
+}

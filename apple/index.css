@@ -1,0 +1,488 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #ffffff;
+  color: #1d1d1f;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #424245;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================
+   Banner Styling
+   ========================================== */
+.offer-banner {
+  font-size: 12px;
+  background-color: #f5f5f7;
+}
+
+/* ==========================================
+   Apple Navbar & Mega Menu Styling
+   ========================================== */
+.apple-navbar {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  font-size: 12px;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.apple-nav-links .nav-link {
+  color: rgba(0, 0, 0, 0.8) !important;
+  font-size: 12px;
+  padding: 8px 0 !important;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.apple-nav-links .nav-link:hover {
+  color: #000 !important;
+}
+
+/* Mega Dropdown Core Logic */
+.mega-dropdown {
+  position: static !important; /* مهم جداً لتأخذ القائمة عرض الشاشة بالكامل */
+}
+
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid #e5e5e5;
+  
+  /* تأثير الظهور والانتقال بسلاسة */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 9999;
+}
+
+.mega-dropdown:hover .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mega-main-links li,
+.mega-sub-links li {
+  margin-bottom: 6px;
+}
+
+.mega-main-links a,
+.mega-sub-links a {
+  text-decoration: none;
+  display: block;
+}
+
+.mega-main-links a:hover {
+  color: #0071e3 !important;
+}
+
+.mega-sub-links a {
+  color: #1d1d1f;
+  font-size: 12px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.mega-sub-links a:hover {
+  color: #000 !important;
+}
+
+/* ==========================================
+   Hero Section 1: Hero Card (Full Width)
+   ========================================== */
+.hero-card {
+  position: relative !important;
+  width: 100% !important;
+  margin: 0 0 12px 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.hero-content {
+  position: absolute !important;
+  top: 35% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 10 !important;
+  width: 100% !important;
+}
+
+.hero-content h1 {
+  font-size: 42px !important;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: #1d1d1f;
+  margin-bottom: 4px;
+}
+
+.hero-content p {
+  font-size: 17px !important;
+  color: #6e6e73;
+}
+
+.hero-card .card-img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  object-fit: cover;
+}
+
+/* ==========================================
+   Buttons Styling
+   ========================================== */
+.btn-custom {
+  background-color: #0071e3;
+  border-color: #0071e3;
+  font-size: 14px;
+}
+
+.btn-custom:hover {
+  background-color: #0077ed;
+  border-color: #0077ed;
+}
+
+.btn-custom-outline {
+  color: #0071e3;
+  border-color: #0071e3;
+  font-size: 14px;
+}
+
+.btn-custom-outline:hover {
+  background-color: #0071e3;
+  color: #fff;
+}
+
+/* ==========================================
+   Section 2: College Style
+   ========================================== */
+.college-section {
+  width: 100%;
+  padding-top: 55px;
+  padding-bottom: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: #f5f5f7;
+}
+
+.college-title {
+  font-size: 56px;
+  letter-spacing: -0.005em;
+  color: #1d1d1f;
+}
+
+.college-subtitle {
+  font-size: 19px;
+  line-height: 1.21;
+  font-weight: 400;
+  letter-spacing: .012em;
+  color: #1d1d1f;
+  max-width: 600px;
+}
+
+.shop-btn {
+  background-color: #0071e3;
+  border-color: #0071e3;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 4px 15px !important;
+}
+
+.shop-btn:hover {
+  background-color: #0077ed;
+  border-color: #0077ed;
+}
+
+.college-img {
+  max-width: 700px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* ==========================================
+   Bento Grid Cards
+   ========================================== */
+.apple-bento-grid {
+  background-color: #ffffff;
+}
+
+.bento-card {
+  position: relative;
+  height: 480px;
+  border-radius: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bento-light {
+  background-color: #fbfbfd;
+  color: #1d1d1f;
+}
+
+.bento-dark {
+  background-color: #000000;
+  color: #f5f5f7;
+}
+
+.bento-content {
+  z-index: 2;
+  margin-top: 15px;
+}
+
+.bento-img {
+  max-height: 280px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  transition: transform 0.4s ease;
+}
+
+.bento-card:hover .bento-img {
+  transform: scale(1.02);
+}
+
+/* ==========================================
+   Apple TV+ Section Style
+   ========================================== */
+.apple-tv-section {
+  background-color: #f5f5f7;
+  overflow: hidden;
+}
+
+.appleTvSwiper {
+  width: 100%;
+  padding-bottom: 30px;
+}
+
+.tv-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.tv-card img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  display: block;
+}
+
+.tv-card-content {
+  position: absolute;
+  bottom: 30px;
+  left: 40px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px 20px;
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.tv-meta {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* Swiper Pagination Bullets */
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #a1a1a6;
+  opacity: 0.5;
+  margin: 0 6px !important;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background: #1d1d1f;
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+}
+
+/* ==========================================
+   Footer Section Style
+   ========================================== */
+.footer {
+  background-color: #f5f5f7;
+  font-size: 11px;
+  line-height: 1.33337;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  padding: 17px 0 21px;
+  color: #6e6e73;
+}
+
+.footer-container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* Footnotes */
+.footnotes {
+  color: #6e6e73;
+  padding-bottom: 11px;
+}
+
+.footnotes p {
+  margin-bottom: 9px;
+}
+
+.footnotes a {
+  color: #424245;
+}
+
+/* Divider */
+.divider {
+  border: 0;
+  border-top: 1px solid #d2d2d7;
+  margin: 11px 0;
+}
+
+/* Directory Columns */
+.footer-directory {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 18px;
+}
+
+.column {
+  flex: 1;
+}
+
+.section {
+  margin-bottom: 18px;
+}
+
+.section h3 {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 6px;
+}
+
+.section ul {
+  list-style: none;
+}
+
+.section ul li {
+  margin-bottom: 6px;
+}
+
+.section ul li a {
+  color: #424245;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  padding-top: 10px;
+  color: #6e6e73;
+}
+
+.more-ways {
+  margin-bottom: 10px;
+}
+
+.more-ways a {
+  color: #0066cc;
+}
+
+.legal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+}
+
+.legal-links {
+  display: flex;
+  gap: 10px;
+}
+
+.legal-links a {
+  position: relative;
+}
+
+.legal-links a:not(:last-child)::after {
+  content: "|";
+  position: absolute;
+  right: -7px;
+  color: #d2d2d7;
+}
+
+.legal-locale {
+  margin-left: auto;
+}
+
+/* ==========================================
+   Responsive Adjustments
+   ========================================== */
+@media (max-width: 768px) {
+  .tv-card img {
+    height: 340px;
+  }
+  
+  .tv-card-content {
+    left: 20px;
+    bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    border-radius: 16px;
+  }
+  
+  .tv-meta {
+    font-size: 13px;
+  }
+  
+  .footer-directory {
+    flex-direction: column;
+  }
+  
+  .legal {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .legal-locale {
+    margin-left: 0;
+  }
+}

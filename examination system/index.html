@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Exam System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="topBar">
+    <button id="switchUserBtn">?? Switch User</button>
+    <button id="leaderboardBtn" class="topbar-leaderboard-btn">?? Leaderboard</button>
+  </div>
+
+  <section id="loginScreen" class="screen auth-page">
+    <div class="auth-card">
+      <div class="auth-toggle-row">
+        <h1 id="authTitle">Sign In</h1>
+        <button id="authToggleBtn" type="button" class="auth-link-btn">Create account</button>
+      </div>
+      <p class="auth-sub" id="authSub">Enter your username and password</p>
+
+      <form id="loginForm">
+        <div class="auth-field">
+          <label for="loginUsername">Username</label>
+          <input type="text" id="loginUsername" placeholder="user name" />
+        </div>
+        <div class="auth-field">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Your password" />
+        </div>
+        <div class="auth-field auth-signup-only hidden">
+          <label for="registerConfirmPassword">Confirm Password</label>
+          <input type="password" id="registerConfirmPassword" placeholder="Confirm password" />
+        </div>
+
+        <div id="loginError" class="auth-error"></div>
+        <button type="submit" class="auth-btn" id="authSubmitBtn">Sign In</button>
+      </form>
+      <p class="auth-note" id="authNote">Demo accounts: hazem / kerolos / ismail (password is same as username)</p>
+    </div>
+  </section>
+
+  <section id="examsScreen" class="screen exam-body">
+    <div class="exam-list-wrap">
+      <h1>Available Exams</h1>
+      <p class="exam-sub" id="examsGreeting">Pick an exam to start:</p>
+      <div id="examList"></div>
+    </div>
+  </section>
+
+  <section id="examScreen" class="screen exam-body">
+    <div class="exam-page-wrap">
+      <div class="exam-main-card">
+        <div class="exam-timer-track">
+          <div class="exam-timer-fill" id="timerFill"></div>
+        </div>
+        <div class="exam-timer-label" id="timerLabel">Time left: --:--</div>
+
+        <div class="exam-question-body">
+          <div class="exam-question-count" id="questionCount">Question 1 of 10</div>
+          <div class="exam-question-text" id="questionText"></div>
+          <div id="questionBody"></div>
+        </div>
+
+        <div class="exam-nav-row">
+          <button class="exam-nav-btn" id="prevBtn">Previous</button>
+          <span class="exam-q-number" id="qNumberBadge">1</span>
+          <button class="exam-nav-btn" id="nextBtn">Next</button>
+          <button class="exam-mark-btn" id="markBtn">Mark</button>
+        </div>
+
+        <button class="exam-submit-btn" id="submitExamBtn">Submit</button>
+      </div>
+
+      <div class="exam-mark-panel">
+        <h4>Marked Questions</h4>
+        <div id="markPanelList">
+          <p class="exam-mark-empty">No marked questions yet.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="gradeScreen" class="screen results-body">
+    <div class="res-card">
+      <div class="res-icon">??</div>
+      <h1 id="gradeTitle">Well done!</h1>
+      <p class="res-msg" id="gradeExamName"></p>
+      <div id="gradeContent"></div>
+      <button class="res-btn" id="gradeHistoryBtn">View My Grades History</button>
+    </div>
+  </section>
+
+  <section id="timeoutScreen" class="screen results-body">
+    <div class="res-card">
+      <div class="res-icon">?</div>
+      <h1 id="timeoutTitle">Time's up!</h1>
+      <p class="res-msg">The exam time has ended.</p>
+      <div id="timeoutContent"></div>
+      <button class="res-btn" id="timeoutHistoryBtn">View My Grades History</button>
+    </div>
+  </section>
+
+  <section id="historyScreen" class="screen results-body">
+    <div class="res-card wide">
+      <div class="res-icon">??</div>
+      <h1>My Grades History</h1>
+      <p class="res-msg">All the exams you've taken so far.</p>
+      <div id="historyList"></div>
+      <button class="res-btn" id="historyBackBtn">Back to Exams</button>
+    </div>
+  </section>
+
+  <section id="leaderboardScreen" class="screen results-body">
+    <div class="res-card wide">
+      <div class="res-icon">??</div>
+      <h1>Leaderboard</h1>
+      <p class="res-msg">Top 
+        scores by registered users.</p>
+      <div id="leaderboardList"></div>
+      <button class="res-btn" id="leaderboardBackBtn">Back to Exams</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

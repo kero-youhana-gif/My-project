@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie App - Netflix Clone</title>
+  <link rel="stylesheet" href="style.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+  <!-- Auth Card -->
+  <div class="auth-card">
+
+    <!-- 1. Login Form -->
+    <div id="login-form-box" class="form-box">
+      <h2>Login</h2>
+      <form id="login-form">
+        <div class="input-group">
+          <label>Email / Username</label>
+          <div class="input-field">
+            <input type="text" id="login-email" placeholder="Enter email or username" value="kero" required>
+            <i class='bx bxs-envelope'></i>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <div class="input-field">
+            <input type="password" id="login-password" placeholder="Enter password" value="1234" required>
+            <i class='bx bxs-lock-alt'></i>
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <div class="switch-mode">
+        <p>Don't have an account? <a href="#" id="go-to-signup">Create Account</a></p>
+      </div>
+    </div>
+
+    <!-- 2. Create Account Form -->
+    <div id="signup-form-box" class="form-box hidden">
+      <h2>Create Account</h2>
+      <form id="signup-form">
+        <div class="input-group">
+          <label>Username</label>
+          <div class="input-field">
+            <input type="text" id="signup-username" placeholder="Enter username" value="kero" required>
+            <i class='bx bxs-user'></i>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <div class="input-field">
+            <input type="password" id="signup-password" placeholder="Enter password" value="1234" required>
+            <i class='bx bxs-lock-alt'></i>
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Register</button>
+      </form>
+
+      <div class="switch-mode">
+        <p>Already have an account? <a href="#" id="go-to-login">Login</a></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Dashboard Container -->
+  <div id="main-dashboard" class="dashboard-container hidden">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">🎬 Netflix Clone</div>
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search movies...">
+      </div>
+      <div class="user-profile">
+        <span id="user-display-name">Welcome, User</span>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+      </div>
+    </nav>
+
+    <!-- Categories Filter -->
+    <div class="categories-section">
+      <div class="categories-scroll">
+        <button class="category-btn active" data-category="all">All Movies</button>
+        <button class="category-btn" data-category="28">Action</button>
+        <button class="category-btn" data-category="35">Comedy</button>
+        <button class="category-btn" data-category="18">Drama</button>
+        <button class="category-btn" data-category="80">Crime</button>
+        <button class="category-btn" data-category="53">Thriller</button>
+        <button class="category-btn" data-category="10751">Family</button>
+        <button class="category-btn" data-category="27">Horror</button>
+      </div>
+    </div>
+
+    <!-- Hero / Main Featured Banner -->
+    <header class="hero-banner" id="hero-banner">
+      <div class="hero-content">
+        <span class="badge">🔥 Most Watched</span>
+        <h1 id="hero-title">Loading...</h1>
+        <p id="hero-overview">Fetching the top movie details...</p>
+        <button id="hero-watch-btn" class="watch-btn">▶ Watch Now</button>
+      </div>
+    </header>
+
+    <!-- Movies List Section -->
+    <section class="movies-section" id="movies-section">
+      <h2>Popular Movies</h2>
+      <div class="movies-grid" id="movies-grid"></div>
+    </section>
+
+    <!-- Movie Details & Video Player Section -->
+    <section id="details-section" class="details-section hidden">
+      <button id="back-to-home-btn" class="back-btn">← Back to Movies</button>
+      <div class="details-container">
+        <h2 id="detail-title">Movie Title</h2>
+        <p id="detail-overview" class="detail-overview">Movie overview...</p>
+        
+        <div class="video-container">
+          <iframe id="video-player" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+        
+        <button id="finish-watching-btn" class="watch-btn finish-btn">Finished Watching? Rate This Movie ⭐️</button>
+
+        <div class="saved-reviews" id="saved-reviews">
+          <h3>Reviews</h3>
+          <div id="saved-reviews-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Review & Rating Section -->
+    <section id="review-section" class="review-section hidden">
+      <div class="review-card">
+        <h2>Rate & Review Movie 🎬</h2>
+        <h3 id="review-movie-title">Movie Name</h3>
+        
+        <div class="rating-box">
+          <label>Your Rating:</label>
+          <select id="rating-select">
+            <option value="5">⭐⭐⭐⭐⭐ (5/5) Excellent</option>
+            <option value="4">⭐⭐⭐⭐ (4/5) Very Good</option>
+            <option value="3">⭐⭐⭐ (3/5) Good</option>
+            <option value="2">⭐⭐ (2/5) Fair</option>
+            <option value="1">⭐ (1/5) Poor</option>
+          </select>
+        </div>
+
+        <div class="comment-box">
+          <label>Your Review:</label>
+          <textarea id="review-comment" placeholder="Write your thoughts about the movie..." rows="4"></textarea>
+        </div>
+
+        <button id="submit-review-btn" class="btn">Submit Review</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Your New Bestie</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+body{background-color:#fff;color:#333}
+.hero-section{background:linear-gradient(135deg,#0d001a 0%,#001f4d 50%,#00bfff 100%);color:#fff;padding:100px 50px;text-align:left}
+.hero-content{max-width:1200px;margin:0 auto}
+.hero-content h1{font-size:3.5rem;margin-bottom:15px;font-weight:700;letter-spacing:-1px}
+.hero-content p{font-size:1.1rem;color:#b3ccff;margin-bottom:35px;max-width:600px;line-height:1.6}
+.btn-container{display:flex;gap:15px;margin-bottom:80px}
+.btn-blue{background-color:#3b82f6;color:#fff;border:none;padding:12px 28px;border-radius:25px;cursor:pointer;font-weight:600;font-size:.95rem;transition:background .3s ease}
+.btn-blue:hover{background-color:#2563eb}
+.btn-outline{background-color:transparent;color:#fff;border:2px solid rgba(255,255,255,.6);padding:12px 28px;border-radius:25px;cursor:pointer;font-weight:600;font-size:.95rem;transition:all .3s ease}
+.btn-outline:hover{background-color:#fff;color:#001f4d;border-color:#fff}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;max-width:1200px;margin:0 auto}
+.feature-card{border-left:1px solid rgba(255,255,255,.2);padding-left:20px;background:transparent}
+.feature-card h3{font-size:1.25rem;margin-bottom:12px;color:#fff;font-weight:600}
+.feature-card p{font-size:.9rem;color:#cbd5e1;line-height:1.6}
+.friends-section{max-width:1200px;margin:80px auto;padding:0 50px;text-align:left}
+.friends-section h2{font-size:2.8rem;margin-bottom:15px;color:#0f172a;font-weight:700}
+.filters{margin-bottom:40px;font-size:.95rem;color:#64748b}
+.filters span{margin-right:15px;cursor:pointer;transition:color .2s ease}
+.filters span:hover{color:#0f172a}
+.filters span.active{font-weight:700;color:#0f172a}
+.pets-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(480px,1fr));gap:30px}
+.pet-card{border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;display:flex;background:#fff;box-shadow:0 4px 6px -1px rgba(0,0,0,.05);transition:transform .2s ease}
+.pet-card:hover{transform:translateY(-2px)}
+.pet-image{width:160px;height:160px;object-fit:cover}
+.pet-info{padding:24px;display:flex;flex-direction:column;justify-content:center}
+.pet-info h4{font-size:1.3rem;margin-bottom:8px;color:#1e293b;font-weight:600;display:flex;align-items:center;gap:8px}
+.pet-info p{font-size:.92rem;color:#64748b;line-height:1.5}
+.footer{text-align:center;padding:40px 0;font-size:.85rem;color:#94a3b8;border-top:1px solid #f1f5f9;margin-top:80px}
+</style>
+</head>
+<body>
+<section class="hero-section">
+<div class="hero-content">
+<h1>Find Your New Bestie</h1>
+<p>Your new amazing friend is ready for adoption at your fingertips. Discover them today!</p>
+            
+<div class="btn-container">
+<button class="btn-blue">View Pets</button>
+<button class="btn-outline">Manage Pets</button>
+</div>
+
+<div class="features-grid">
+<div class="feature-card">
+<h3>Sunny Play</h3>
+<p>Our center is located in beautiful Miami, and it's currently 84°F at our pet playground.</p>
+</div>
+<div class="feature-card">
+<h3>Dedicated Staff</h3>
+<p>Our center has over 70 volunteers who play with pets four times daily.</p>
+</div>
+<div class="feature-card">
+<h3>Voted #1</h3>
+<p>For the last 3 years, we've consistently been voted the #1 pet adoption center in the state.</p>
+</div>
+<div class="feature-card">
+<h3>Nightly Yoga</h3>
+<p>Every night our staff leads a yoga session, and the animals are free to roam around and relax around people.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="friends-section">
+<h2>Meet our friends</h2>
+        
+<div class="filters">
+Show Me: 
+<span class="active">All pets</span> | 
+<span>Only Dogs</span> | 
+<span>Only Cats</span>
+</div>
+
+<div class="pets-grid">
+<div class="pet-card">
+<img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=200" alt="Barksalot" class="pet-image">
+ <div class="pet-info">
+ <h4>Barksalot 🐶</h4>
+<p>Barksalot is a sweet and energetic 2-year-old pup. He loves carrots, tennis balls, and playing fetch.</p>
+</div>
+</div>
+<div class="pet-card">
+<img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200" alt="Meowsalot" class="pet-image">
+<div class="pet-info">
+<h4>Meowsalot 🐱</h4>
+<p>Meowsalot is the most sensitive cat we've ever come across. Constant meowing/purring. 1 year old.</p>
+</div>
+</div>
+
+<div class="pet-card">
+<img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=200" alt="Woof" class="pet-image">
+<div class="pet-info">
+<h4>Woof 🐶</h4>
+<p>Woof is a very affectionate and trained pup. He loves warm places, cuddles, and jumping over the fences. Less than 1 year old.</p>
+</div>
+</div>
+
+<div class="pet-card">
+<img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=200" alt="Purrsalot" class="pet-image">
+<div class="pet-info">
+<h4>Purrsalot 🐱</h4>
+<p>Purrsalot has the loudest and most relaxing purr that's come through our center. Come see it yourself. 13 years old.</p>
+</div>
+</div>
+</div>
+</section>
+<div class="footer">
+</div>
+
+</body>
+</html>
