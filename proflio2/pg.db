@@ -1,0 +1,1355 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict XXxNKmybfMyCdZYDJSCwRu4etbNYN9p65HrQAcCs4EDclo5kQRx2f14Gcrsahu0
+
+-- Dumped from database version 16.15
+-- Dumped by pg_dump version 18.4
+
+-- Started on 2026-09-27 11:37:15
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 216 (class 1259 OID 16705)
+-- Name: campuses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.campuses (
+    campus_id integer NOT NULL,
+    campus_name character varying(100) NOT NULL,
+    location character varying(255)
+);
+
+
+ALTER TABLE public.campuses OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 16704)
+-- Name: campuses_campus_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.campuses_campus_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.campuses_campus_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5022 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: campuses_campus_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.campuses_campus_id_seq OWNED BY public.campuses.campus_id;
+
+
+--
+-- TOC entry 230 (class 1259 OID 16838)
+-- Name: classrooms; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.classrooms (
+    classroom_id integer NOT NULL,
+    room_number character varying(20) NOT NULL,
+    capacity integer NOT NULL,
+    type character varying(50),
+    campus_id integer NOT NULL,
+    CONSTRAINT classrooms_type_check CHECK (((type)::text = ANY ((ARRAY['Lecture Hall'::character varying, 'Lab'::character varying, 'Seminar Room'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.classrooms OWNER TO postgres;
+
+--
+-- TOC entry 229 (class 1259 OID 16837)
+-- Name: classrooms_classroom_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.classrooms_classroom_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.classrooms_classroom_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5023 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: classrooms_classroom_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.classrooms_classroom_id_seq OWNED BY public.classrooms.classroom_id;
+
+
+--
+-- TOC entry 238 (class 1259 OID 16918)
+-- Name: club_memberships; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.club_memberships (
+    student_id integer NOT NULL,
+    club_id integer NOT NULL,
+    join_date date NOT NULL,
+    role character varying(50) DEFAULT 'Member'::character varying
+);
+
+
+ALTER TABLE public.club_memberships OWNER TO postgres;
+
+--
+-- TOC entry 232 (class 1259 OID 16851)
+-- Name: course_offerings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.course_offerings (
+    offering_id integer NOT NULL,
+    course_code character varying(10) NOT NULL,
+    semester character varying(20) NOT NULL,
+    year integer NOT NULL,
+    primary_faculty_id integer NOT NULL,
+    classroom_id integer,
+    is_online boolean DEFAULT false,
+    day_of_week character varying(15),
+    start_time time without time zone,
+    end_time time without time zone
+);
+
+
+ALTER TABLE public.course_offerings OWNER TO postgres;
+
+--
+-- TOC entry 231 (class 1259 OID 16850)
+-- Name: course_offerings_offering_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.course_offerings_offering_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.course_offerings_offering_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5024 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: course_offerings_offering_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.course_offerings_offering_id_seq OWNED BY public.course_offerings.offering_id;
+
+
+--
+-- TOC entry 228 (class 1259 OID 16822)
+-- Name: course_prerequisites; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.course_prerequisites (
+    course_code character varying(10) NOT NULL,
+    prerequisite_course_code character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.course_prerequisites OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 16796)
+-- Name: courses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.courses (
+    course_code character varying(10) NOT NULL,
+    title character varying(150) NOT NULL,
+    credit_hours integer NOT NULL,
+    level character varying(20),
+    department_code character varying(10) NOT NULL,
+    CONSTRAINT courses_level_check CHECK (((level)::text = ANY ((ARRAY['undergraduate'::character varying, 'postgraduate'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.courses OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 16713)
+-- Name: departments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.departments (
+    department_code character varying(10) NOT NULL,
+    department_name character varying(100) NOT NULL,
+    campus_id integer NOT NULL,
+    head_faculty_id integer
+);
+
+
+ALTER TABLE public.departments OWNER TO postgres;
+
+--
+-- TOC entry 235 (class 1259 OID 16889)
+-- Name: enrollments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.enrollments (
+    enrollment_id integer NOT NULL,
+    student_id integer NOT NULL,
+    offering_id integer NOT NULL,
+    status character varying(20) DEFAULT 'Enrolled'::character varying,
+    final_grade character varying(5),
+    grade_recorded_date date,
+    CONSTRAINT enrollments_status_check CHECK (((status)::text = ANY ((ARRAY['Enrolled'::character varying, 'Dropped'::character varying, 'Completed'::character varying, 'Failed'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.enrollments OWNER TO postgres;
+
+--
+-- TOC entry 234 (class 1259 OID 16888)
+-- Name: enrollments_enrollment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.enrollments_enrollment_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.enrollments_enrollment_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5025 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: enrollments_enrollment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.enrollments_enrollment_id_seq OWNED BY public.enrollments.enrollment_id;
+
+
+--
+-- TOC entry 219 (class 1259 OID 16724)
+-- Name: faculty; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.faculty (
+    faculty_id integer NOT NULL,
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50) NOT NULL,
+    email character varying(100) NOT NULL,
+    rank character varying(50),
+    department_code character varying(10) NOT NULL,
+    CONSTRAINT faculty_rank_check CHECK (((rank)::text = ANY ((ARRAY['Assistant Professor'::character varying, 'Associate Professor'::character varying, 'Professor'::character varying, 'Lecturer'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.faculty OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 16723)
+-- Name: faculty_faculty_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.faculty_faculty_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.faculty_faculty_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5026 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: faculty_faculty_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.faculty_faculty_id_seq OWNED BY public.faculty.faculty_id;
+
+
+--
+-- TOC entry 233 (class 1259 OID 16873)
+-- Name: offering_teaching_assistants; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.offering_teaching_assistants (
+    offering_id integer NOT NULL,
+    faculty_id integer NOT NULL
+);
+
+
+ALTER TABLE public.offering_teaching_assistants OWNER TO postgres;
+
+--
+-- TOC entry 227 (class 1259 OID 16807)
+-- Name: program_courses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.program_courses (
+    program_id integer NOT NULL,
+    course_code character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.program_courses OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 16744)
+-- Name: programs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.programs (
+    program_id integer NOT NULL,
+    program_name character varying(100) NOT NULL,
+    degree_type character varying(50) NOT NULL,
+    department_code character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.programs OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 16743)
+-- Name: programs_program_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.programs_program_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.programs_program_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5027 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: programs_program_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.programs_program_id_seq OWNED BY public.programs.program_id;
+
+
+--
+-- TOC entry 241 (class 1259 OID 16946)
+-- Name: project_student_participants; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.project_student_participants (
+    project_id integer NOT NULL,
+    student_id integer NOT NULL,
+    role character varying(50)
+);
+
+
+ALTER TABLE public.project_student_participants OWNER TO postgres;
+
+--
+-- TOC entry 240 (class 1259 OID 16935)
+-- Name: research_projects; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.research_projects (
+    project_id integer NOT NULL,
+    title character varying(150) NOT NULL,
+    budget numeric(12,2),
+    supervisor_faculty_id integer NOT NULL
+);
+
+
+ALTER TABLE public.research_projects OWNER TO postgres;
+
+--
+-- TOC entry 239 (class 1259 OID 16934)
+-- Name: research_projects_project_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.research_projects_project_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.research_projects_project_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5028 (class 0 OID 0)
+-- Dependencies: 239
+-- Name: research_projects_project_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.research_projects_project_id_seq OWNED BY public.research_projects.project_id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 16775)
+-- Name: student_campus_transfers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.student_campus_transfers (
+    transfer_id integer NOT NULL,
+    student_id integer NOT NULL,
+    from_campus_id integer NOT NULL,
+    to_campus_id integer NOT NULL,
+    transfer_date date NOT NULL
+);
+
+
+ALTER TABLE public.student_campus_transfers OWNER TO postgres;
+
+--
+-- TOC entry 224 (class 1259 OID 16774)
+-- Name: student_campus_transfers_transfer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.student_campus_transfers_transfer_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.student_campus_transfers_transfer_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5029 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: student_campus_transfers_transfer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.student_campus_transfers_transfer_id_seq OWNED BY public.student_campus_transfers.transfer_id;
+
+
+--
+-- TOC entry 237 (class 1259 OID 16910)
+-- Name: student_clubs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.student_clubs (
+    club_id integer NOT NULL,
+    club_name character varying(100) NOT NULL,
+    description text,
+    founded_date date
+);
+
+
+ALTER TABLE public.student_clubs OWNER TO postgres;
+
+--
+-- TOC entry 236 (class 1259 OID 16909)
+-- Name: student_clubs_club_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.student_clubs_club_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.student_clubs_club_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5030 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: student_clubs_club_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.student_clubs_club_id_seq OWNED BY public.student_clubs.club_id;
+
+
+--
+-- TOC entry 223 (class 1259 OID 16756)
+-- Name: students; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.students (
+    student_id integer NOT NULL,
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50) NOT NULL,
+    email character varying(100) NOT NULL,
+    enrollment_date date NOT NULL,
+    program_id integer NOT NULL,
+    advisor_id integer NOT NULL
+);
+
+
+ALTER TABLE public.students OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 16755)
+-- Name: students_student_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.students_student_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.students_student_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5031 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: students_student_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.students_student_id_seq OWNED BY public.students.student_id;
+
+
+--
+-- TOC entry 4761 (class 2604 OID 16708)
+-- Name: campuses campus_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.campuses ALTER COLUMN campus_id SET DEFAULT nextval('public.campuses_campus_id_seq'::regclass);
+
+
+--
+-- TOC entry 4766 (class 2604 OID 16841)
+-- Name: classrooms classroom_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.classrooms ALTER COLUMN classroom_id SET DEFAULT nextval('public.classrooms_classroom_id_seq'::regclass);
+
+
+--
+-- TOC entry 4767 (class 2604 OID 16854)
+-- Name: course_offerings offering_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.course_offerings ALTER COLUMN offering_id SET DEFAULT nextval('public.course_offerings_offering_id_seq'::regclass);
+
+
+--
+-- TOC entry 4769 (class 2604 OID 16892)
+-- Name: enrollments enrollment_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enrollments ALTER COLUMN enrollment_id SET DEFAULT nextval('public.enrollments_enrollment_id_seq'::regclass);
+
+
+--
+-- TOC entry 4762 (class 2604 OID 16727)
+-- Name: faculty faculty_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.faculty ALTER COLUMN faculty_id SET DEFAULT nextval('public.faculty_faculty_id_seq'::regclass);
+
+
+--
+-- TOC entry 4763 (class 2604 OID 16747)
+-- Name: programs program_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.programs ALTER COLUMN program_id SET DEFAULT nextval('public.programs_program_id_seq'::regclass);
+
+
+--
+-- TOC entry 4773 (class 2604 OID 16938)
+-- Name: research_projects project_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.research_projects ALTER COLUMN project_id SET DEFAULT nextval('public.research_projects_project_id_seq'::regclass);
+
+
+--
+-- TOC entry 4765 (class 2604 OID 16778)
+-- Name: student_campus_transfers transfer_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_campus_transfers ALTER COLUMN transfer_id SET DEFAULT nextval('public.student_campus_transfers_transfer_id_seq'::regclass);
+
+
+--
+-- TOC entry 4771 (class 2604 OID 16913)
+-- Name: student_clubs club_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_clubs ALTER COLUMN club_id SET DEFAULT nextval('public.student_clubs_club_id_seq'::regclass);
+
+
+--
+-- TOC entry 4764 (class 2604 OID 16759)
+-- Name: students student_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students ALTER COLUMN student_id SET DEFAULT nextval('public.students_student_id_seq'::regclass);
+
+
+--
+-- TOC entry 4991 (class 0 OID 16705)
+-- Dependencies: 216
+-- Data for Name: campuses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.campuses (campus_id, campus_name, location) FROM stdin;
+1	Main Campus	Building A
+2	North Campus	Building B
+3	East Campus	Building C
+\.
+
+
+--
+-- TOC entry 5005 (class 0 OID 16838)
+-- Dependencies: 230
+-- Data for Name: classrooms; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.classrooms (classroom_id, room_number, capacity, type, campus_id) FROM stdin;
+1	Hall A	120	Lecture Hall	1
+2	Lab 2	30	Lab	1
+3	Room 305	50	Seminar Room	2
+4	Hall B	100	Lecture Hall	3
+\.
+
+
+--
+-- TOC entry 5013 (class 0 OID 16918)
+-- Dependencies: 238
+-- Data for Name: club_memberships; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.club_memberships (student_id, club_id, join_date, role) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5007 (class 0 OID 16851)
+-- Dependencies: 232
+-- Data for Name: course_offerings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.course_offerings (offering_id, course_code, semester, year, primary_faculty_id, classroom_id, is_online, day_of_week, start_time, end_time) FROM stdin;
+1	CS101	Fall	2026	1	1	f	Sunday	09:00:00	11:00:00
+2	CS202	Fall	2026	4	2	f	Tuesday	11:00:00	13:00:00
+3	ENG101	Spring	2026	2	3	f	Monday	10:00:00	12:00:00
+\.
+
+
+--
+-- TOC entry 5003 (class 0 OID 16822)
+-- Dependencies: 228
+-- Data for Name: course_prerequisites; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.course_prerequisites (course_code, prerequisite_course_code) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5001 (class 0 OID 16796)
+-- Dependencies: 226
+-- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.courses (course_code, title, credit_hours, level, department_code) FROM stdin;
+CS101	Intro to Programming	3	undergraduate	CS
+CS202	Database Systems	4	undergraduate	CS
+ENG101	Calculus I	3	undergraduate	ENG
+BUS501	Advanced Management	3	postgraduate	BUS
+\.
+
+
+--
+-- TOC entry 4992 (class 0 OID 16713)
+-- Dependencies: 217
+-- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.departments (department_code, department_name, campus_id, head_faculty_id) FROM stdin;
+BUS	Business Administration	3	\N
+CS	Computer Science	1	1
+ENG	Engineering	2	2
+\.
+
+
+--
+-- TOC entry 5010 (class 0 OID 16889)
+-- Dependencies: 235
+-- Data for Name: enrollments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.enrollments (enrollment_id, student_id, offering_id, status, final_grade, grade_recorded_date) FROM stdin;
+1	1	1	Completed	A	2026-01-20
+2	2	3	Enrolled	\N	\N
+3	3	2	Completed	B+	2026-01-22
+\.
+
+
+--
+-- TOC entry 4994 (class 0 OID 16724)
+-- Dependencies: 219
+-- Data for Name: faculty; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.faculty (faculty_id, first_name, last_name, email, rank, department_code) FROM stdin;
+1	Ahmed	Hassan	ahmed.hassan@univ.edu	Professor	CS
+2	Mona	Ali	mona.ali@univ.edu	Associate Professor	ENG
+3	Omar	Khaled	omar.khaled@univ.edu	Lecturer	BUS
+4	Amr	Sami	amr.sami@univ.edu	Assistant Professor	CS
+\.
+
+
+--
+-- TOC entry 5008 (class 0 OID 16873)
+-- Dependencies: 233
+-- Data for Name: offering_teaching_assistants; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.offering_teaching_assistants (offering_id, faculty_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5002 (class 0 OID 16807)
+-- Dependencies: 227
+-- Data for Name: program_courses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.program_courses (program_id, course_code) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4996 (class 0 OID 16744)
+-- Dependencies: 221
+-- Data for Name: programs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.programs (program_id, program_name, degree_type, department_code) FROM stdin;
+1	BSc Computer Science	BSc	CS
+2	BSc Software Engineering	BSc	ENG
+3	MBA Business	MSc	BUS
+\.
+
+
+--
+-- TOC entry 5016 (class 0 OID 16946)
+-- Dependencies: 241
+-- Data for Name: project_student_participants; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.project_student_participants (project_id, student_id, role) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5015 (class 0 OID 16935)
+-- Dependencies: 240
+-- Data for Name: research_projects; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.research_projects (project_id, title, budget, supervisor_faculty_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5000 (class 0 OID 16775)
+-- Dependencies: 225
+-- Data for Name: student_campus_transfers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.student_campus_transfers (transfer_id, student_id, from_campus_id, to_campus_id, transfer_date) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5012 (class 0 OID 16910)
+-- Dependencies: 237
+-- Data for Name: student_clubs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.student_clubs (club_id, club_name, description, founded_date) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4998 (class 0 OID 16756)
+-- Dependencies: 223
+-- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.students (student_id, first_name, last_name, email, enrollment_date, program_id, advisor_id) FROM stdin;
+1	Karim	Abdelrahman	karim@student.edu	2023-09-01	1	1
+2	Sarah	Youssef	sarah@student.edu	2024-01-15	2	2
+3	Ali	Mahmoud	ali@student.edu	2023-09-01	1	1
+4	Aya	Mostafa	aya@student.edu	2025-09-01	3	3
+\.
+
+
+--
+-- TOC entry 5032 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: campuses_campus_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.campuses_campus_id_seq', 3, true);
+
+
+--
+-- TOC entry 5033 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: classrooms_classroom_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.classrooms_classroom_id_seq', 4, true);
+
+
+--
+-- TOC entry 5034 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: course_offerings_offering_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.course_offerings_offering_id_seq', 3, true);
+
+
+--
+-- TOC entry 5035 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: enrollments_enrollment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.enrollments_enrollment_id_seq', 3, true);
+
+
+--
+-- TOC entry 5036 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: faculty_faculty_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.faculty_faculty_id_seq', 4, true);
+
+
+--
+-- TOC entry 5037 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: programs_program_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.programs_program_id_seq', 3, true);
+
+
+--
+-- TOC entry 5038 (class 0 OID 0)
+-- Dependencies: 239
+-- Name: research_projects_project_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.research_projects_project_id_seq', 1, false);
+
+
+--
+-- TOC entry 5039 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: student_campus_transfers_transfer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.student_campus_transfers_transfer_id_seq', 1, false);
+
+
+--
+-- TOC entry 5040 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: student_clubs_club_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.student_clubs_club_id_seq', 1, false);
+
+
+--
+-- TOC entry 5041 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: students_student_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.students_student_id_seq', 4, true);
+
+
+--
+-- TOC entry 4779 (class 2606 OID 16712)
+-- Name: campuses campuses_campus_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.campuses
+    ADD CONSTRAINT campuses_campus_name_key UNIQUE (campus_name);
+
+
+--
+-- TOC entry 4781 (class 2606 OID 16710)
+-- Name: campuses campuses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.campuses
+    ADD CONSTRAINT campuses_pkey PRIMARY KEY (campus_id);
+
+
+--
+-- TOC entry 4803 (class 2606 OID 16844)
+-- Name: classrooms classrooms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.classrooms
+    ADD CONSTRAINT classrooms_pkey PRIMARY KEY (classroom_id);
+
+
+--
+-- TOC entry 4815 (class 2606 OID 16923)
+-- Name: club_memberships club_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.club_memberships
+    ADD CONSTRAINT club_memberships_pkey PRIMARY KEY (student_id, club_id);
+
+
+--
+-- TOC entry 4805 (class 2606 OID 16857)
+-- Name: course_offerings course_offerings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.course_offerings
+    ADD CONSTRAINT course_offerings_pkey PRIMARY KEY (offering_id);
+
+
+--
+-- TOC entry 4801 (class 2606 OID 16826)
+-- Name: course_prerequisites course_prerequisites_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.course_prerequisites
+    ADD CONSTRAINT course_prerequisites_pkey PRIMARY KEY (course_code, prerequisite_course_code);
+
+
+--
+-- TOC entry 4797 (class 2606 OID 16801)
+-- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.courses
+    ADD CONSTRAINT courses_pkey PRIMARY KEY (course_code);
+
+
+--
+-- TOC entry 4783 (class 2606 OID 16717)
+-- Name: departments departments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.departments
+    ADD CONSTRAINT departments_pkey PRIMARY KEY (department_code);
+
+
+--
+-- TOC entry 4809 (class 2606 OID 16896)
+-- Name: enrollments enrollments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enrollments
+    ADD CONSTRAINT enrollments_pkey PRIMARY KEY (enrollment_id);
+
+
+--
+-- TOC entry 4785 (class 2606 OID 16732)
+-- Name: faculty faculty_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.faculty
+    ADD CONSTRAINT faculty_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 4787 (class 2606 OID 16730)
+-- Name: faculty faculty_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.faculty
+    ADD CONSTRAINT faculty_pkey PRIMARY KEY (faculty_id);
+
+
+--
+-- TOC entry 4807 (class 2606 OID 16877)
+-- Name: offering_teaching_assistants offering_teaching_assistants_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.offering_teaching_assistants
+    ADD CONSTRAINT offering_teaching_assistants_pkey PRIMARY KEY (offering_id, faculty_id);
+
+
+--
+-- TOC entry 4799 (class 2606 OID 16811)
+-- Name: program_courses program_courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.program_courses
+    ADD CONSTRAINT program_courses_pkey PRIMARY KEY (program_id, course_code);
+
+
+--
+-- TOC entry 4789 (class 2606 OID 16749)
+-- Name: programs programs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.programs
+    ADD CONSTRAINT programs_pkey PRIMARY KEY (program_id);
+
+
+--
+-- TOC entry 4819 (class 2606 OID 16950)
+-- Name: project_student_participants project_student_participants_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project_student_participants
+    ADD CONSTRAINT project_student_participants_pkey PRIMARY KEY (project_id, student_id);
+
+
+--
+-- TOC entry 4817 (class 2606 OID 16940)
+-- Name: research_projects research_projects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.research_projects
+    ADD CONSTRAINT research_projects_pkey PRIMARY KEY (project_id);
+
+
+--
+-- TOC entry 4795 (class 2606 OID 16780)
+-- Name: student_campus_transfers student_campus_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_campus_transfers
+    ADD CONSTRAINT student_campus_transfers_pkey PRIMARY KEY (transfer_id);
+
+
+--
+-- TOC entry 4813 (class 2606 OID 16917)
+-- Name: student_clubs student_clubs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_clubs
+    ADD CONSTRAINT student_clubs_pkey PRIMARY KEY (club_id);
+
+
+--
+-- TOC entry 4791 (class 2606 OID 16763)
+-- Name: students students_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 4793 (class 2606 OID 16761)
+-- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_pkey PRIMARY KEY (student_id);
+
+
+--
+-- TOC entry 4811 (class 2606 OID 16898)
+-- Name: enrollments unique_student_offering; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enrollments
+    ADD CONSTRAINT unique_student_offering UNIQUE (student_id, offering_id);
+
+
+--
+-- TOC entry 4842 (class 2606 OID 16929)
+-- Name: club_memberships fk_club_item; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.club_memberships
+    ADD CONSTRAINT fk_club_item FOREIGN KEY (club_id) REFERENCES public.student_clubs(club_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4843 (class 2606 OID 16924)
+-- Name: club_memberships fk_club_student; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.club_memberships
+    ADD CONSTRAINT fk_club_student FOREIGN KEY (student_id) REFERENCES public.students(student_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4829 (class 2606 OID 16802)
+-- Name: courses fk_course_dept; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.courses
+    ADD CONSTRAINT fk_course_dept FOREIGN KEY (department_code) REFERENCES public.departments(department_code);
+
+
+--
+-- TOC entry 4832 (class 2606 OID 16827)
+-- Name: course_prerequisites fk_cp_course; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.course_prerequisites
+    ADD CONSTRAINT fk_cp_course FOREIGN KEY (course_code) REFERENCES public.courses(course_code) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4833 (class 2606 OID 16832)
+-- Name: course_prerequisites fk_cp_prereq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.course_prerequisites
+    ADD CONSTRAINT fk_cp_prereq FOREIGN KEY (prerequisite_course_code) REFERENCES public.courses(course_code) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4820 (class 2606 OID 16718)
+-- Name: departments fk_dept_campus; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.departments
+    ADD CONSTRAINT fk_dept_campus FOREIGN KEY (campus_id) REFERENCES public.campuses(campus_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4840 (class 2606 OID 16904)
+-- Name: enrollments fk_enroll_offering; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enrollments
+    ADD CONSTRAINT fk_enroll_offering FOREIGN KEY (offering_id) REFERENCES public.course_offerings(offering_id);
+
+
+--
+-- TOC entry 4841 (class 2606 OID 16899)
+-- Name: enrollments fk_enroll_student; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enrollments
+    ADD CONSTRAINT fk_enroll_student FOREIGN KEY (student_id) REFERENCES public.students(student_id);
+
+
+--
+-- TOC entry 4822 (class 2606 OID 16733)
+-- Name: faculty fk_faculty_dept; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.faculty
+    ADD CONSTRAINT fk_faculty_dept FOREIGN KEY (department_code) REFERENCES public.departments(department_code);
+
+
+--
+-- TOC entry 4821 (class 2606 OID 16738)
+-- Name: departments fk_head_faculty; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.departments
+    ADD CONSTRAINT fk_head_faculty FOREIGN KEY (head_faculty_id) REFERENCES public.faculty(faculty_id) ON DELETE SET NULL;
+
+
+--
+-- TOC entry 4835 (class 2606 OID 16858)
+-- Name: course_offerings fk_offering_course; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.course_offerings
+    ADD CONSTRAINT fk_offering_course FOREIGN KEY (course_code) REFERENCES public.courses(course_code);
+
+
+--
+-- TOC entry 4836 (class 2606 OID 16863)
+-- Name: course_offerings fk_offering_faculty; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.course_offerings
+    ADD CONSTRAINT fk_offering_faculty FOREIGN KEY (primary_faculty_id) REFERENCES public.faculty(faculty_id);
+
+
+--
+-- TOC entry 4837 (class 2606 OID 16868)
+-- Name: course_offerings fk_offering_room; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.course_offerings
+    ADD CONSTRAINT fk_offering_room FOREIGN KEY (classroom_id) REFERENCES public.classrooms(classroom_id);
+
+
+--
+-- TOC entry 4830 (class 2606 OID 16817)
+-- Name: program_courses fk_pc_course; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.program_courses
+    ADD CONSTRAINT fk_pc_course FOREIGN KEY (course_code) REFERENCES public.courses(course_code) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4831 (class 2606 OID 16812)
+-- Name: program_courses fk_pc_program; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.program_courses
+    ADD CONSTRAINT fk_pc_program FOREIGN KEY (program_id) REFERENCES public.programs(program_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4823 (class 2606 OID 16750)
+-- Name: programs fk_prog_dept; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.programs
+    ADD CONSTRAINT fk_prog_dept FOREIGN KEY (department_code) REFERENCES public.departments(department_code);
+
+
+--
+-- TOC entry 4845 (class 2606 OID 16951)
+-- Name: project_student_participants fk_proj_participant_proj; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project_student_participants
+    ADD CONSTRAINT fk_proj_participant_proj FOREIGN KEY (project_id) REFERENCES public.research_projects(project_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4846 (class 2606 OID 16956)
+-- Name: project_student_participants fk_proj_participant_student; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project_student_participants
+    ADD CONSTRAINT fk_proj_participant_student FOREIGN KEY (student_id) REFERENCES public.students(student_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4844 (class 2606 OID 16941)
+-- Name: research_projects fk_project_supervisor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.research_projects
+    ADD CONSTRAINT fk_project_supervisor FOREIGN KEY (supervisor_faculty_id) REFERENCES public.faculty(faculty_id);
+
+
+--
+-- TOC entry 4834 (class 2606 OID 16845)
+-- Name: classrooms fk_room_campus; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.classrooms
+    ADD CONSTRAINT fk_room_campus FOREIGN KEY (campus_id) REFERENCES public.campuses(campus_id);
+
+
+--
+-- TOC entry 4824 (class 2606 OID 16769)
+-- Name: students fk_student_advisor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT fk_student_advisor FOREIGN KEY (advisor_id) REFERENCES public.faculty(faculty_id);
+
+
+--
+-- TOC entry 4825 (class 2606 OID 16764)
+-- Name: students fk_student_prog; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT fk_student_prog FOREIGN KEY (program_id) REFERENCES public.programs(program_id);
+
+
+--
+-- TOC entry 4838 (class 2606 OID 16883)
+-- Name: offering_teaching_assistants fk_ta_faculty; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.offering_teaching_assistants
+    ADD CONSTRAINT fk_ta_faculty FOREIGN KEY (faculty_id) REFERENCES public.faculty(faculty_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4839 (class 2606 OID 16878)
+-- Name: offering_teaching_assistants fk_ta_offering; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.offering_teaching_assistants
+    ADD CONSTRAINT fk_ta_offering FOREIGN KEY (offering_id) REFERENCES public.course_offerings(offering_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4826 (class 2606 OID 16786)
+-- Name: student_campus_transfers fk_trans_from_campus; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_campus_transfers
+    ADD CONSTRAINT fk_trans_from_campus FOREIGN KEY (from_campus_id) REFERENCES public.campuses(campus_id);
+
+
+--
+-- TOC entry 4827 (class 2606 OID 16781)
+-- Name: student_campus_transfers fk_trans_student; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_campus_transfers
+    ADD CONSTRAINT fk_trans_student FOREIGN KEY (student_id) REFERENCES public.students(student_id);
+
+
+--
+-- TOC entry 4828 (class 2606 OID 16791)
+-- Name: student_campus_transfers fk_trans_to_campus; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.student_campus_transfers
+    ADD CONSTRAINT fk_trans_to_campus FOREIGN KEY (to_campus_id) REFERENCES public.campuses(campus_id);
+
+
+-- Completed on 2026-09-27 11:37:15
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict XXxNKmybfMyCdZYDJSCwRu4etbNYN9p65HrQAcCs4EDclo5kQRx2f14Gcrsahu0
+
